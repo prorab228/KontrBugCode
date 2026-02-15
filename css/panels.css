@@ -1,0 +1,195 @@
+/*Стили панелей*/
+/* Blockly Panel */
+.blockly-panel {
+    flex: 1;
+    position: relative;
+    background: var(--blockly-bg);
+    transition: all 0.3s ease;
+    width: 100%;
+    height: 100%;
+    min-width: 400px; /* Минимальная ширина */
+}
+
+/* Обновите workspace-area для правильного flex-распределения */
+.workspace-area {
+    flex: 1;
+    display: flex;
+    position: relative;
+    overflow: hidden;
+    min-height: 500px;
+    width: 100%;
+}
+
+/* Уберите абсолютное позиционирование для code-panel */
+.code-panel {
+    width: 0;
+    background: var(--surface);
+    display: flex;
+    flex-direction: column;
+    border-left: 1px solid var(--border-color);
+    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    min-width: 0;
+    max-width: 100vw;
+    overflow: hidden;
+    flex-shrink: 0;
+    /* Убираем абсолютное позиционирование */
+    position: static;
+    transform: none;
+    opacity: 1;
+    z-index: auto;
+    top: auto;
+    bottom: auto;
+    right: auto;
+}
+
+.code-panel.visible {
+    width: 40%; /* Фиксированная ширина */
+    min-width: 25%;
+}
+
+.code-panel.fullscreen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw !important;
+    height: 100vh;
+    z-index: 1000;
+    border: none;
+}
+
+/* Output Panel */
+.output-panel {
+    height: 200px;
+    background: var(--surface);
+    border-top: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    transition: height 0.2s ease;
+    flex-shrink: 0;
+    position: relative;
+    min-height: 40px;
+    max-height: calc(100vh - 100px);
+}
+
+.output-panel.collapsed {
+    height: 40px;
+}
+
+.output-panel.fullscreen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1000;
+}
+
+/* Panel Headers */
+.panel-header {
+    background: var(--surface);
+    color: var(--text-primary);
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    user-select: none;
+    flex-shrink: 0;
+    transition: background-color 0.2s ease;
+    min-height: 40px;
+}
+
+
+
+.panel-header-controls {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+/* Panel Content */
+.panel-content {
+    flex: 1;
+    padding: 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Tabs */
+.code-panel-tabs, .output-panel-tabs {
+    display: flex;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border-color);
+    flex-shrink: 0;
+    height: 32px;
+}
+
+.code-panel-tab, .output-panel-tab {
+    padding: 6px 12px;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s ease;
+    font-weight: 500;
+    font-size: 12px;
+    color: var(--text-secondary);
+    flex: 1;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.code-panel-tab {
+    min-width: 60px;
+}
+
+.output-panel-tab {
+    min-width: 120px;
+}
+
+.code-panel-tab:hover, .output-panel-tab:hover {
+    background: var(--background);
+    color: var(--text-primary);
+}
+
+.code-panel-tab.active, .output-panel-tab.active {
+    border-bottom-color: var(--primary-color);
+    color: var(--primary-color);
+    background: var(--background);
+}
+
+/* Tab Content */
+.code-tab-content, .output-tab-content {
+    display: none;
+    height: 100%;
+    flex-direction: column;
+}
+
+.code-tab-content.active, .output-tab-content.active {
+    display: flex;
+    overflow-y: auto;
+}
+
+
+
+/* Для режима КОД делаем Blockly меньше */
+body.code-mode .blockly-panel {
+    flex: 2; /* 2/3 пространства */
+}
+
+body.code-mode .code-panel.visible {
+    flex: 1; /* 1/3 пространства */
+    width: auto; /* Заменяем фиксированную ширину на flex */
+}
+
+/* Для режима БЛОКИ делаем Blockly на всю ширину */
+body.blocks-mode .blockly-panel {
+    flex: 1;
+    width: 100%;
+}
+
+body.blocks-mode .code-panel.visible {
+    flex: 0;
+    width: 0;
+}

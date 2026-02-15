@@ -1,0 +1,47 @@
+#######################################
+# Syntax Coloring Map For SSD1306wire
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+SSD1306wire           KEYWORD1
+SSD1306_WIRE_FONT     KEYWORD1
+SSD1306_WIRE_INIT_SEQ KEYWORD1
+SSD1306_WIRE_DISPLAY  KEYWORD1
+
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+set400kHz             KEYWORD2
+begin                 KEYWORD2
+write                 KEYWORD2
+setFont               KEYWORD2
+inverseFont           KEYWORD2
+setPower              KEYWORD2
+setContrast           KEYWORD2
+inverseDisplay        KEYWORD2
+setCursor             KEYWORD2
+syncCursor            KEYWORD2
+setCursorForce        KEYWORD2
+clear                 KEYWORD2
+clearToEOL            KEYWORD2
+
+
+#######################################
+# Instances (KEYWORD2)
+#######################################
+
+#######################################
+# Structures (KEYWORD3)
+#######################################
+SSD1306wire_display   KEYWORD3
+
+#######################################
+# Constants (LITERAL1)
+#######################################
+SSD1306_COMMAND       LITERAL1
+SSD1306_DATA          LITERAL1

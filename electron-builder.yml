@@ -1,0 +1,44 @@
+appId: com.controlbugcode.editor
+productName: KontrBugCode
+directories:
+  output: release
+files:
+  - "**/*"
+  - "!**/node_modules/*/{CHANGELOG.md,README.md,README,readme.md,readme}"
+  - "!**/node_modules/*/{test,__tests__,tests,powered-test,example,examples}"
+  - "!**/node_modules/*.d.ts"
+  - "!**/node_modules/.bin"
+extraResources:
+  - from: arduino-cli.exe
+    to: .
+  - from: arduino-cli
+    to: .
+  - from: libraries
+    to: libraries
+  - from: drivers
+    to: drivers
+
+win:
+  target:
+    - target: nsis
+      arch:
+        - x64
+  icon: assets/icons/icon.ico
+
+
+linux:
+  target:
+    - tar.gz  # Убрали AppImage, оставили только tar.gz
+#    - AppImage
+  icon: assets/icons
+  category: Development
+  synopsis: Visual Arduino Editor
+  description: Visual programming environment for Arduino
+  executableArgs: []  # Убираем возможные аргументы
+
+mac:
+  target: dmg
+  icon: assets/icons/icon.icns
+
+forceCodeSigning: false
+asar: false

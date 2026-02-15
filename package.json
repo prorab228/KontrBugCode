@@ -1,0 +1,34 @@
+{
+  "name": "kontrbugcode",
+  "version": "1.0.6",
+  "description": "КонтрБагКОД",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder",
+    "build-win": "electron-builder --win",
+    "build-linux": "electron-builder --linux --config.asar=false",
+    "build-mac": "electron-builder --mac"
+  },
+  "keywords": [
+    "arduino",
+    "blockly",
+    "visual programming",
+    "education"
+  ],
+  "author": "КонтрБагТех",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^22.3.27",
+    "electron-builder": "^24.13.3"
+  },
+  "dependencies": {
+    "@serialport/parser-readline": "^10.5.0",
+    "fs-extra": "^11.3.2",
+    "js-yaml": "^4.1.1",
+    "serialport": "^10.5.0",
+    "yauzl": "^2.10.0",
+    "iconv-lite": "^0.6.3"
+  },
+  "type": "commonjs"
+}

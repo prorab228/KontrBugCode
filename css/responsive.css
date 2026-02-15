@@ -1,0 +1,139 @@
+/* Responsive */
+@media (max-width: 1200px) {
+    .header-controls {
+        gap: 10px;
+        margin: 0 10px;
+    }
+
+    .btn-icon {
+        padding: 6px 10px;
+        font-size: 12px;
+    }
+
+    .icon {
+        font-size: 14px;
+    }
+
+    .logo-img {
+        height: 35px;
+    }
+
+    .logo-text h1 {
+        font-size: 18px;
+    }
+
+    .logo-text .subtitle {
+        font-size: 11px;
+    }
+}
+
+@media (max-width: 768px) {
+    .header {
+        flex-direction: column;
+        height: auto;
+        padding: 8px;
+        gap: 8px;
+    }
+
+    .header-controls {
+        flex-direction: column;
+        gap: 8px;
+        width: 100%;
+    }
+
+    .header-left, .header-center, .header-right {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .header-left {
+        flex-wrap: wrap;
+    }
+
+    .code-panel.visible {
+        width: 100%;
+    }
+
+    .output-panel {
+        height: 150px;
+    }
+
+    .modal-content {
+        min-width: 90%;
+        margin: 20px;
+    }
+
+    .logo {
+        min-width: auto;
+    }
+
+    .serial-controls {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .serial-select {
+        min-width: auto;
+        flex: 1;
+    }
+
+    .output-panel-tab {
+        min-width: 100px;
+        font-size: 11px;
+        padding: 6px 8px;
+    }
+
+    .line-numbers {
+        width: 40px;
+        font-size: 12px;
+    }
+
+    .line-number {
+        min-height: 18px;
+    }
+
+    .error-line-marker {
+        left: 40px;
+    }
+
+    .error-highlight-temporary {
+        left: 40px;
+    }
+
+    #codeEditor, #codeEditorPreview {
+        left: 40px;
+        width: calc(100% - 40px);
+    }
+}
+
+@media (max-width: 480px) {
+    .logo-text .subtitle {
+        display: none;
+    }
+
+    .logo-img {
+        height: 30px;
+    }
+
+    .logo-text h1 {
+        font-size: 16px;
+    }
+
+    .btn-icon span:not(.icon) {
+        display: none;
+    }
+
+    .btn-icon {
+        padding: 8px;
+    }
+
+    .board-selector select {
+        min-width: 120px;
+    }
+
+    .output-panel-tab {
+        min-width: 80px;
+        font-size: 10px;
+        padding: 6px 4px;
+    }
+}

@@ -1,0 +1,59 @@
+/* Serial Monitor */
+.serial-controls {
+    padding: 8px 12px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.serial-output {
+    flex: 1;
+    background: var(--surface);
+    color: var(--text-primary);
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    font-size: 11px;
+    line-height: 1.4;
+    white-space: pre-wrap;
+    padding: 12px;
+    overflow-y: auto;
+    height: 100%;
+}
+
+.serial-message {
+    margin-bottom: 2px;
+    padding: 1px 0;
+    display: flex;
+}
+
+.serial-message.incoming {
+    color: #4ec9b0;
+}
+
+.serial-message.outgoing {
+    color: #ce9178;
+}
+
+.serial-message.info {
+    color: #569cd6;
+}
+
+.serial-message.error {
+    color: #f44747;
+}
+
+.serial-timestamp {
+    color: #6a9955;
+    font-size: 9px;
+    margin-right: 6px;
+    min-width: 50px;
+}
+
+
+.log-output: {
+    background: var(--surface);
+    color: var(--text-primary);
+}
+

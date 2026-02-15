@@ -1,0 +1,135 @@
+/*Переменные и темы*/
+
+:root {
+    /* Светлая тема */
+    --primary-color: #00c853;
+    --primary-dark: #009624;
+    --primary-light: #5efc82;
+    --secondary-color: #424242;
+    --accent-color: #00e676;
+    --background: #fafafa;
+    --background-darker: #ffffff;
+    --surface: #fafafa;
+    --surface-point: #dddddd;
+    --text-primary: #212121;
+    --text-secondary: #757575;
+    --text-muted: #9e9e9e;
+    --border-color: #e0e0e0;
+    --success-color: #00c853;
+    --warning-color: #ff9100;
+    --danger-color: #ff3d00;
+    --info-color: #2979ff;
+    --shadow: 0 2px 4px rgba(0,0,0,0.1);
+    --shadow-hover: 0 4px 8px rgba(0,0,0,0.15);
+    --code-bg: #1e1e1e;
+    --code-text: #d4d4d4;
+
+    --settings-bg: #f8f9fa;
+    --settings-border: #dee2e6;
+
+    /* Blockly colors */
+    --blockly-bg: #ffffff;
+    --blockly-text: #575e75;
+    --blockly-grid: #e0e0e0;
+
+
+  --hljs-literal:#569cd6;
+  --hljs-bg: #ffffff;
+  --hljs-color: #24292e;
+  --hljs-comment: #6a737d;
+  --hljs-keyword: #d73a49;
+  --hljs-number: #005cc5;
+  --hljs-string: #032f62;
+  --hljs-title: #6f42c1;
+  --hljs-type: #6f42c1;
+  --hljs-tag: #22863a;
+  --hljs-attribute: #22863a;
+  --hljs-regexp: #032f62;
+  --hljs-symbol: #e36209;
+  --hljs-built_in: #005cc5;
+  --hljs-meta: #6a737d;
+  --hljs-deletion-bg: #ffeef0;
+  --hljs-deletion-color: #b31d28;
+  --hljs-addition-bg: #f0fff4;
+  --hljs-addition-color: #22863a;
+}
+
+[data-theme="dark"] {
+    --background: #121212;
+    --background-darker: #1e1e1e;
+    --surface: #2d2d2d;
+    --surface-point: #3d3d3d;
+    --text-primary: #ffffff;
+    --text-secondary: #b0b0b0;
+    --text-muted: #666666;
+    --border-color: #404040;
+    --shadow: 0 2px 4px rgba(0,0,0,0.3);
+    --shadow-hover: 0 4px 8px rgba(0,0,0,0.4);
+    --code-bg: #1e1e1e;
+    --code-text: #d4d4d4;
+
+    --settings-bg: #2d3748;
+    --settings-border: #4a5568;
+
+    /* Blockly dark theme */
+    --blockly-bg: #1e1e1e;
+    --blockly-text: #ffffff;
+    --blockly-grid: #2d2d2d;
+
+  --hljs-literal:#569cd6;
+  --hljs-bg: #1e1e1e;
+  --hljs-color: #d4d4d4;
+  --hljs-comment: #6a9955;
+  --hljs-keyword: #569cd6;
+  --hljs-number: #b5cea8;
+  --hljs-string: #ce9178;
+  --hljs-title: #f39c12;;
+  --hljs-type: #4ec9b0;
+  --hljs-tag: #569cd6;
+  --hljs-attribute: #9cdcfe;
+  --hljs-regexp: #d16969;
+  --hljs-symbol: #dcdcaa;
+  --hljs-built_in: #4ec9b0;
+  --hljs-meta: #808080;
+  --hljs-deletion-bg: #4b1818;
+  --hljs-deletion-color: #f48771;
+  --hljs-addition-bg: #1e2b1e;
+  --hljs-addition-color: #b5cea8;
+}
+
+
+/* Добавьте в variables.css */
+:root {
+  /* Обновленные иконки */
+  --icon-compile: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>');
+   --icon-upload: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M13,14.14V20.5L3,12.5L13,3.5V9.86L22,3.5L13,14.14Z"/></svg>');
+
+    --icon-collapse: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M19 13H5v-2h14v2z"/></svg>');
+  --icon-expand: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>');
+
+  /* Существующие иконки оставляем как есть */
+  --icon-examples: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M18,22A2,2 0 0,0 20,20V4C20,2.89 19.1,2 18,2H12V9L9.5,7.5L7,9V2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18Z"/></svg>');
+  --icon-blocks: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M4,6H8V10H4V6M4,11H8V15H4V11M4,16H8V20H4V16M9,6H13V10H9V6M9,11H13V15H9V11M9,16H13V20H9V16M14,6H18V10H14V6M14,11H18V15H14V11M14,16H18V20H14V16Z"/></svg>');
+  --icon-code: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M14.6,16.6L19.2,12L14.6,7.4L16,6L22,12L16,18L14.6,16.6M9.4,16.6L4.8,12L9.4,7.4L8,6L2,12L8,18L9.4,16.6Z"/></svg>');
+  --icon-refresh: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M17.65,6.35C16.2,4.9 14.21,4 12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20C15.73,20 18.84,17.45 19.73,14H17.65C16.83,16.33 14.61,18 12,18A6,6 0 0,1 6,12A6,6 0 0,1 12,6C13.66,6 15.14,6.69 16.22,7.78L13,11H20V4L17.65,6.35Z"/></svg>');
+  --icon-settings: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12,15.5A3.5,3.5 0 0,1 8.5,12A3.5,3.5 0 0,1 12,8.5A3.5,3.5 0 0,1 15.5,12A3.5,3.5 0 0,1 12,15.5M19.43,12.97C19.47,12.65 19.5,12.33 19.5,12C19.5,11.67 19.47,11.34 19.43,11L21.54,9.37C21.73,9.22 21.78,8.95 21.66,8.73L19.66,5.27C19.54,5.05 19.27,4.96 19.05,5.05L16.56,6.05C16.04,5.66 15.5,5.32 14.87,5.07L14.5,2.42C14.46,2.18 14.25,2 14,2H10C9.75,2 9.54,2.18 9.5,2.42L9.13,5.07C8.5,5.32 7.96,5.66 7.44,6.05L4.95,5.05C4.73,4.96 4.46,5.05 4.34,5.27L2.34,8.73C2.22,8.95 2.27,9.22 2.46,9.37L4.57,11C4.53,11.34 4.5,11.67 4.5,12C4.5,12.33 4.53,12.65 4.57,12.97L2.46,14.63C2.27,14.78 2.22,15.05 2.34,15.27L4.34,18.73C4.46,18.95 4.73,19.03 4.95,18.95L7.44,17.94C7.96,18.34 8.5,18.68 9.13,18.93L9.5,21.58C9.54,21.82 9.75,22 10,22H14C14.25,22 14.46,21.82 14.5,21.58L14.87,18.93C15.5,18.68 16.04,18.34 16.56,17.94L19.05,18.95C19.27,19.03 19.54,18.95 19.66,18.73L21.66,15.27C21.78,15.05 21.73,14.78 21.54,14.63L19.43,12.97Z"/></svg>');
+  --icon-theme: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M17.75,4.09L15.22,6.03L16.13,9.09L13.5,7.28L10.87,9.09L11.78,6.03L9.25,4.09L12.44,4L13.5,1L14.56,4L17.75,4.09M21.25,11L19.61,12.25L20.2,14.23L18.5,13.06L16.8,14.23L17.39,12.25L15.75,11L17.81,10.95L18.5,9L19.19,10.95L21.25,11M18.97,15.95C19.8,15.87 20.69,17.05 20.16,17.8C19.84,18.25 19.5,18.67 19.08,19.07C15.17,23 8.84,23 4.94,19.07C1.03,15.17 1.03,8.83 4.94,4.93C5.34,4.53 5.76,4.17 6.21,3.85C6.96,3.32 8.14,4.21 8.06,5.04C7.79,7.9 8.75,10.87 10.95,13.06C13.14,15.26 16.1,16.22 18.97,15.95M17.33,17.97C14.5,17.81 11.7,16.64 9.53,14.5C7.36,12.31 6.2,9.5 6.04,6.68C3.23,9.82 3.34,14.64 6.35,17.66C9.37,20.67 14.19,20.78 17.33,17.97Z"/></svg>');
+  --icon-copy: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"/></svg>');
+  --icon-fullscreen: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M5,5H10V7H7V10H5V5M14,5H19V10H17V7H14V5M17,14H19V19H14V17H17V14M10,17V19H5V14H7V17H10Z"/></svg>');
+  --icon-connect: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M10,3H14V6H16V3C16,1.89 15.1,1 14,1H10C8.89,1 8,1.89 8,3V6H10V3M20,7V13H18V7H20M18,15V17H20V15H18M17,7C17.55,7 18,7.45 18,8V17C18,18.1 17.1,19 16,19H8C6.89,19 6,18.1 6,17V8C6,7.45 6.45,7 7,7H17M7,8V10H9V8H7M7,11V13H9V11H7M7,14V16H9V14H7Z"/></svg>');
+  --icon-disconnect: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12,1C7.04,1 3,5.04 3,10V17H6V10C6,7.8 7.8,6 10,6H14C16.2,6 18,7.8 18,10V17H21V10C21,5.04 16.96,1 12,1M12,3C15.87,3 19,6.13 19,10V16H16V10C16,8.9 15.1,8 14,8H10C8.9,8 8,8.9 8,10V16H5V10C5,6.13 8.13,3 12,3M9,18H15V20H9V18Z"/></svg>');
+  --icon-clear: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z"/></svg>');
+  --icon-send: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M2,21L23,12L2,3V10L17,12L2,14V21Z"/></svg>');
+
+/* Новые иконки */
+    --icon-trash: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19M8,9H16V19H8V9M15.5,4L14.5,3H9.5L8.5,4H5V6H19V4H15.5Z"/></svg>');
+    --icon-save: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M15,9H5V5H15M12,19A3,3 0 0,1 9,16A3,3 0 0,1 12,13A3,3 0 0,1 15,16A3,3 0 0,1 12,19M17,3H5C3.89,3 3,3.9 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V7L17,3Z"/></svg>');
+    --icon-play: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M8,5.14V19.14L19,12.14L8,5.14Z"/></svg>');
+    --icon-to-blocks: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z"/></svg>');
+/* Новые иконки */
+    --icon-export: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M19 12v7H5v-7H3v7c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2v-7h-2zm-6 .67l2.59-2.58L17 11.5l-5 5-5-5 1.41-1.41L11 12.67V3h2v9.67z"/></svg>');
+    --icon-autoscroll-on: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-2-13l-5 5 1.41 1.41L10 10.83V16h2v-5.17l2.59 2.58L17 12l-5-5-2-2z"/></svg>');
+    --icon-autoscroll-off: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-2-13l-5 5 1.41 1.41L10 10.83V16h2v-5.17l2.59 2.58L17 12l-5-5-2-2z" opacity="0.5"/><path d="M12 4c-4.41 0-8 3.59-8 8s3.59 8 8 8 8-3.59 8-8-3.59-8-8-8zm0 14c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6z"/></svg>');
+    /* Иконка загрузки (вращающаяся стрелка) */
+    --icon-loading: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12,4V1L8,5l4,4V6c3.31,0,6,2.69,6,6c0,1.01-0.25,1.97-0.7,2.8l1.46,1.46C19.54,15.03,20,13.57,20,12c0-4.42-3.58-8-8-8zm0,14c-3.31,0-6-2.69-6-6c0-1.01,0.25-1.97,0.7-2.8L5.24,7.74C4.46,8.97,4,10.43,4,12c0,4.42,3.58,8,8,8v3l4-4l-4-4V18z"/></svg>');
+}

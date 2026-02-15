@@ -1,0 +1,357 @@
+/*Стили редактора*/
+/* Code Output */
+#codeOutput {
+    background: var(--surface);
+    color: var(--text-primary);
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    font-size: 13px;
+    line-height: 1.5;
+    white-space: pre-wrap;
+    padding: 16px;
+    height: 100%;
+    overflow-y: auto;
+    border: none;
+    margin: 0;
+    user-select: text;
+    cursor: text;
+}
+
+#codeOutput::selection {
+    background: var(--primary-color);
+    color: white;
+}
+
+#codeOutput::-moz-selection {
+    background: var(--primary-color);
+    color: white;
+}
+
+/* Code Editor */
+.code-editor-wrapper {
+    position: relative;
+    flex: 1;
+    overflow: hidden;
+    background: var(--border-color);
+    display: flex;
+    min-height: 200px;
+}
+
+/* Line Numbers - Updated for light theme */
+.line-numbers {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 40px;
+    height: 100%;
+    background: var(--surface);
+    border-right: 1px solid var(--border-color);
+    padding: 10px 5px;
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    font-size: 14px;
+    line-height: 1.4;
+    color: #666;
+    text-align: right;
+    overflow: hidden;
+    z-index: 3;
+    user-select: none;
+}
+
+.line-number {
+    padding: 0 5px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.line-number:hover {
+    background: rgba(0, 0, 0, 0.1);
+    color: #333;
+}
+
+.line-number.error-line {
+    background: rgba(255, 68, 68, 0.1);
+    color: #d32f2f;
+    font-weight: bold;
+}
+
+.line-number.warning-line {
+    background: rgba(255, 152, 0, 0.1);
+    color: #f57c00;
+    font-weight: bold;
+}
+
+.line-number.info-line {
+    background: rgba(33, 150, 243, 0.1);
+    color: #1976d2;
+}
+
+.line-number.active-line {
+    background: rgba(0, 200, 83, 0.1);
+    color: #00c853;
+    font-weight: bold;
+}
+
+/* Editor Elements */
+#codeEditor, #codeEditorPreview {
+    top: 0;
+    left: 45px;
+    width: calc(100% - 50px);
+    height: 100%;
+    margin: 0;
+    padding: 10px 10px 10px 0;
+    overflow: auto;
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    font-size: 14px;
+    line-height: 1.4;
+    white-space: pre;
+    tab-size: 4;
+    resize: none;
+    border: none;
+    outline: none;
+}
+
+#codeEditor {
+    background: transparent;
+    color: transparent;
+    caret-color: white;
+    position: absolute;
+    z-index: 2;
+}
+
+#codeEditorPreview {
+    background: var(--surface);
+    color: var(--code-text);
+    position: absolute;
+    z-index: 1;
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    font-size: 14px;
+    line-height: 1.4;
+    white-space: pre;
+    pointer-events: none;
+}
+
+.editor-controls {
+    padding: 0px 25px;
+    background: var(--surface);
+    display: flex;
+    flex-shrink: 0;
+}
+
+/* View Modes */
+.code-mode .blockly-panel {
+    display: none !important;
+}
+
+.code-mode .code-panel {
+    width: 100% !important;
+    border-left: none;
+    transform: none !important;
+    opacity: 1 !important;
+}
+
+.blocks-mode .code-panel {
+    display: flex;
+}
+
+/* Autocomplete - Updated for light theme */
+.autocomplete-container {
+    position: fixed;
+    background: var(--surface);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    box-shadow: var(--shadow-hover);
+    max-height: 400px;
+    overflow-y: auto;
+    z-index: 10000;
+    display: none;
+    min-width: 300px;
+    font-family: 'Consolas', monospace;
+    font-size: 14px;
+}
+
+.autocomplete-item {
+    padding: 8px 12px;
+    cursor: pointer;
+    border-bottom: 1px solid var(--border-color);
+    transition: background-color 0.1s ease;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--text-primary);
+}
+
+.autocomplete-item:hover {
+    background: var(--background) !important;
+}
+
+.autocomplete-item.selected {
+    background: var(--primary-color) !important;
+    color: white;
+}
+
+.suggestion-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.suggestion-text {
+    flex: 1;
+}
+
+.suggestion-type {
+    font-size: 0.75em;
+    opacity: 0.7;
+    color: var(--text-secondary);
+    margin-left: 10px;
+}
+
+/* Error Status Bar - Updated for light theme */
+.error-status-bar {
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: var(--surface);
+    border-top: 1px solid var(--border-color);
+    padding: 4px 12px;
+    display: flex;
+    gap: 15px;
+    font-size: 12px;
+    z-index: 1000;
+    color: var(--text-secondary);
+}
+
+.error-item {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.error-item.error {
+    color: var(--danger-color);
+}
+
+.error-item.warning {
+    color: var(--warning-color);
+}
+
+.error-item.info {
+    color: var(--info-color);
+}
+
+.status-item
+{
+    cursor: pointer;
+}
+
+.status-item:hover
+{
+    background: var(--surface-point);
+}
+
+/////////////
+/* HLJS стили с поддержкой тем */
+
+/* Стили для светлой темы */
+
+
+/* Стили для темной темы */
+
+
+/* Общие стили HLJS */
+
+.hljs {
+  background: var(--hljs-bg);
+  color: var(--hljs-color);
+}
+
+.hljs-comment,
+.hljs-quote {
+  color: var(--hljs-comment);
+  font-style: italic;
+}
+
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-subst {
+  color: var(--hljs-keyword);
+}
+.hljs-literal
+{
+    color:var(--hljs-literal);
+}
+
+.hljs-number,
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag .hljs-attr {
+  color: var(--hljs-number);
+}
+
+.hljs-string,
+.hljs-doctag {
+  color: var(--hljs-string);
+}
+
+.hljs-title,
+.hljs-section,
+.hljs-selector-id {
+  color: var(--hljs-title);
+  font-weight: bold;
+}
+
+.hljs-subst {
+  font-weight: normal;
+}
+
+.hljs-type,
+.hljs-class .hljs-title {
+  color: var(--hljs-type);
+}
+
+.hljs-tag,
+.hljs-name,
+.hljs-attribute {
+  color: var(--hljs-tag);
+}
+
+.hljs-regexp,
+.hljs-link {
+  color: var(--hljs-regexp);
+}
+
+.hljs-symbol,
+.hljs-bullet {
+  color: var(--hljs-symbol);
+}
+
+.hljs-built_in,
+.hljs-builtin-name {
+  color: var(--hljs-built_in);
+}
+
+.hljs-meta {
+  color: var(--hljs-meta);
+}
+
+.hljs-deletion {
+  background: var(--hljs-deletion-bg);
+  color: var(--hljs-deletion-color);
+}
+
+.hljs-addition {
+  background: var(--hljs-addition-bg);
+  color: var(--hljs-addition-color);
+}
+
+.hljs-emphasis {
+  font-style: italic;
+}
+
+.hljs-strong {
+  font-weight: bold;
+}

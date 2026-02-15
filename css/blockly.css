@@ -1,0 +1,71 @@
+/* Blockly */
+#blocklyDiv {
+    height: 100%;
+    width: 100%;
+}
+
+.blocklyMainBackground {
+    stroke: none !important;
+    fill: var(--blockly-bg) !important;
+}
+
+.blocklyGridPattern > path {
+    display: none !important;
+}
+
+.blocklyScrollbarHandle {
+    fill: var(--primary-color) !important;
+}
+
+.blocklyToolboxDiv, .blocklyToolbox {
+    background: var(--surface) !important;
+    border-right: 1px solid var(--border-color) !important;
+}
+
+.blocklyTreeRow {
+    border-radius: 6px !important;
+    transition: all 0.2s ease !important;
+    color: var(--text-primary) !important;
+    font-family: 'Roboto', sans-serif !important;
+}
+
+.blocklyTreeRow:hover {
+    background: var(--accent-color) !important;
+}
+
+.blocklyTreeSelected {
+    background: var(--primary-color) !important;
+    color: white !important;
+}
+
+.blocklyPath {
+    stroke: var(--border-color) !important;
+}
+
+
+/* Стили для блоков условий */
+.blocklyBlock[data-type="controls_if"] {
+    border-left: 5px solid #4CAF50 !important;
+}
+
+.blocklyBlock[data-type="controls_else_if"] {
+    border-left: 5px solid #FF9800 !important;
+}
+
+.blocklyBlock[data-type="controls_else"] {
+    border-left: 5px solid #F44336 !important;
+}
+
+
+.blocklyHighlightedConnectionPath
+{
+    stroke: rgba(0,255,0,1) !important;
+    stroke-width: 7px;
+}
+/* Подсветка совместимых соединений */
+.blocklyInsertionMarker {
+    stroke: rgba(0,255,0,1) !important;
+    stroke-width: 2px;
+}
+
+

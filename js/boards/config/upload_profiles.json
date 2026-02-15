@@ -1,0 +1,31 @@
+{
+  "defaults": {
+    "speed": "115200",
+    "protocol": "serial"
+  },
+  "types": {
+    "avr": {
+      "programmer": "",
+      "programmers": ["arduinoasisp", "usbasp", "usbtinyisp", "arduino", "stk500v1", "stk500v2", "wiring"]
+    },
+    "esp": {
+      "upload_speed": "115200",
+      "flash_size": "4M",
+      "flash_mode": "qio",
+      "partition_scheme": "default"
+    }
+  },
+  "board_specific": {
+    "esp8266:esp8266:nodemcuv2": {
+      "flash_size": "4M",
+      "flash_mode": "dio",
+      "upload_speed": "115200"
+    },
+    "esp32:esp32:esp32": {
+      "flash_size": "4M",
+      "flash_mode": "qio",
+      "partition_scheme": "default",
+      "upload_speed": "921600"
+    }
+  }
+}

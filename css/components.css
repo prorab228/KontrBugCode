@@ -1,0 +1,250 @@
+/*Компоненты UI*/
+
+/* Buttons */
+.btn, .btn-icon, .btn-success, .btn-primary, .btn-warning, .btn-danger, .btn-secondary {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--surface);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+    white-space: nowrap;
+}
+
+.btn:hover, .btn-icon:hover {
+    box-shadow: var(--shadow-hover);
+    transform: translateY(-1px);
+    background: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+}
+
+.btn-success {
+    background: var(--success-color);
+    color: white;
+    border-color: var(--success-color);
+}
+
+.btn-primary {
+    background: var(--info-color);
+    color: white;
+    border-color: var(--info-color);
+}
+
+.btn-warning {
+    background: var(--warning-color);
+    color: white;
+    border-color: var(--warning-color);
+}
+
+.btn-danger {
+    background: var(--danger-color);
+    color: white;
+    border-color: var(--danger-color);
+}
+
+.icon {
+    font-size: 16px;
+}
+
+/* Form Elements */
+.board-selector select, .serial-select, .serial-input {
+    padding: 8px 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    font-size: 13px;
+    background: var(--surface);
+    color: var(--text-primary);
+    cursor: pointer;
+}
+
+.board-selector select {
+    min-width: 160px;
+}
+
+.serial-select {
+    min-width: 100px;
+    height: 28px;
+    font-size: 11px;
+}
+
+.serial-input {
+    flex: 1;
+    font-family: 'Consolas', monospace;
+    font-size: 11px;
+    height: 28px;
+}
+
+/* Dropdown */
+.examples-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: var(--surface);
+    min-width: 200px;
+    box-shadow: var(--shadow-hover);
+    border-radius: 8px;
+    z-index: 1000;
+    border: 1px solid var(--border-color);
+}
+
+.examples-dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown-content div {
+    padding: 10px 15px;
+    cursor: pointer;
+    border-bottom: 1px solid var(--border-color);
+    font-size: 13px;
+    transition: all 0.2s ease;
+    color: var(--text-primary);
+}
+
+.dropdown-content div:hover {
+    background: var(--primary-color);
+    color: white;
+}
+
+.dropdown-content div:last-child {
+    border-bottom: none;
+}
+
+/* View Toggle */
+.view-toggle {
+    display: flex;
+    gap: 2px;
+    background: var(--background);
+    padding: 2px;
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+}
+
+.view-toggle .btn {
+    padding: 8px 16px;
+    font-size: 13px;
+    background: transparent;
+    color: var(--text-secondary);
+    border: none;
+}
+
+.view-toggle .btn.active {
+    background: var(--primary-color) !important;
+    color: white;
+}
+
+
+
+
+
+/*Иконки*/
+/* Обновите в components.css */
+.btn-icon .icon {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  background-color: currentColor;
+  mask-repeat: no-repeat;
+  mask-position: center;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+}
+
+/* Обновленные иконки */
+/*
+.btn-icon[onclick*="compileSketch"] .icon { mask-image: var(--icon-compile); -webkit-mask-image: var(--icon-compile); }
+.btn-icon[onclick*="showUploadModal"] .icon { mask-image: var(--icon-upload); -webkit-mask-image: var(--icon-upload); }
+.btn-icon[title*="Примеры"] .icon { mask-image: var(--icon-examples); -webkit-mask-image: var(--icon-examples); }
+.btn-icon[onclick*="switchToBlocksMode"] .icon { mask-image: var(--icon-blocks); -webkit-mask-image: var(--icon-blocks); }
+.btn-icon[onclick*="switchToCodeMode"] .icon,
+.btn-icon[onclick*="toggleCodePanel"] .icon { mask-image: var(--icon-code); -webkit-mask-image: var(--icon-code); }
+.btn-icon[onclick*="toggleSimpleMode"] .icon { mask-image: var(--icon-refresh); -webkit-mask-image: var(--icon-refresh); }
+.btn-icon[onclick*="installArduinoCLI"] .icon { mask-image: var(--icon-settings); -webkit-mask-image: var(--icon-settings); }
+.btn-icon[onclick*="toggleTheme"] .icon { mask-image: var(--icon-theme); -webkit-mask-image: var(--icon-theme); }
+.btn-copy .icon { mask-image: var(--icon-copy); -webkit-mask-image: var(--icon-copy); }
+.fullscreen-btn .icon { mask-image: var(--icon-fullscreen); -webkit-mask-image: var(--icon-fullscreen); }
+.btn-success[onclick*="toggleSerialConnection"] .icon { mask-image: var(--icon-connect); -webkit-mask-image: var(--icon-connect); }
+.btn-danger[onclick*="toggleSerialConnection"] .icon { mask-image: var(--icon-disconnect); -webkit-mask-image: var(--icon-disconnect); }
+.btn[onclick*="clearSerialMonitor"] .icon { mask-image: var(--icon-clear); -webkit-mask-image: var(--icon-clear); }
+.btn[onclick*="sendSerialData"] .icon { mask-image: var(--icon-send); -webkit-mask-image: var(--icon-send); }
+.btn-refresh .icon { mask-image: var(--icon-refresh); -webkit-mask-image: var(--icon-refresh); }
+*/
+/* Иконки для сворачивания/разворачивания */
+.collapse-btn .icon {
+  mask-image: var(--icon-collapse);
+  -webkit-mask-image: var(--icon-collapse);
+}
+
+.output-panel.collapsed .collapse-btn .icon {
+  mask-image: var(--icon-expand);
+  -webkit-mask-image: var(--icon-expand);
+}
+
+
+/* Обновите в components.css */
+.btn-icon .icon {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background-color: currentColor;
+  mask-repeat: no-repeat;
+  mask-position: center;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+}
+
+/* Анимация вращения для иконки загрузки */
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Упрощенные селекторы для иконок */
+.btn-compile { mask-image: var(--icon-compile); -webkit-mask-image: var(--icon-compile); }
+.btn-upload  { mask-image: var(--icon-play); -webkit-mask-image: var(--icon-play); }
+.btn-examples  { mask-image: var(--icon-examples); -webkit-mask-image: var(--icon-examples); }
+.btn-blocks  { mask-image: var(--icon-blocks); -webkit-mask-image: var(--icon-blocks); }
+.btn-code  { mask-image: var(--icon-code); -webkit-mask-image: var(--icon-code); }
+.btn-refresh  { mask-image: var(--icon-refresh); -webkit-mask-image: var(--icon-refresh); }
+.btn-settings { mask-image: var(--icon-settings); -webkit-mask-image: var(--icon-settings); }
+.btn-theme  { mask-image: var(--icon-theme); -webkit-mask-image: var(--icon-theme); }
+.btn-copy  { mask-image: var(--icon-copy); -webkit-mask-image: var(--icon-copy); }
+.btn-fullscreen  { mask-image: var(--icon-fullscreen); -webkit-mask-image: var(--icon-fullscreen); }
+.btn-connect  { mask-image: var(--icon-connect); -webkit-mask-image: var(--icon-connect); }
+.btn-disconnect  { mask-image: var(--icon-disconnect); -webkit-mask-image: var(--icon-disconnect); }
+.btn-clear  { mask-image: var(--icon-trash); -webkit-mask-image: var(--icon-trash); }
+.btn-send  { mask-image: var(--icon-send); -webkit-mask-image: var(--icon-send); }
+.btn-save  { mask-image: var(--icon-save); -webkit-mask-image: var(--icon-save); }
+.btn-close  { mask-image: var(--icon-clear); -webkit-mask-image: var(--icon-clear); }
+.to-blocks { mask-image: var(--icon-to-blocks); -webkit-mask-image: var(--icon-to-blocks); }
+.bth-export { mask-image: var( --icon-export); -webkit-mask-image: var(--icon-export); }
+.bth-autoscroll { mask-image: var(--icon-autoscroll-on); -webkit-mask-image: var(--icon-autoscroll-on); }
+
+.btn-loading {
+    mask-image: var(--icon-loading); -webkit-mask-image: var(--icon-loading);
+    animation: spin 1s linear infinite;
+}
+
+/* Иконки для сворачивания/разворачивания */
+.collapse-btn .icon {
+  mask-image: var(--icon-collapse);
+  -webkit-mask-image: var(--icon-collapse);
+}
+
+.output-panel.collapsed .collapse-btn .icon {
+  mask-image: var(--icon-expand);
+  -webkit-mask-image: var(--icon-expand);
+}

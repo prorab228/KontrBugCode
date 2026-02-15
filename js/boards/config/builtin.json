@@ -1,0 +1,123 @@
+{
+  "contrbugzero": {
+    "id": "contrbugzero",
+    "boardId": "nano",
+    "fqbn": "arduino:avr:nano",
+    "name": "КонтрБаг ZERO",
+    "coreId": "arduino:avr",
+    "coreName": "Arduino AVR Boards",
+    "vendor": "arduino",
+    "architecture": "avr",
+    "installed": true,
+    "category": "Встроенные платы",
+    "pins": {
+      "digital": 13,
+      "analog": 8,
+      "pwm": [3, 5, 6, 9, 10, 11]
+    },
+    "isBuiltIn": true,
+    "properties": {
+      "build.mcu": "atmega328p",
+      "build.f_cpu": "16000000L",
+      "build.variant": "eightanaloginputs",
+      "upload.speed": "115200",
+      "upload.protocol": "arduino"
+    },
+    "uploadSettings": {
+      "speed": "115200",
+      "protocol": "arduino",
+      "programmer": ""
+    }
+  },
+
+    "contrbugpro": {
+    "id": "contrbugpro",
+    "boardId": "esp32c3",
+    "fqbn": "esp32:esp32:esp32c3",
+    "name": "КонтрБаг PRO",
+    "coreId": "esp32:esp32",
+    "coreName": "ESP32 Boards",
+    "vendor": "esp32",
+    "architecture": "esp32",
+    "installed": true,
+    "category": "Встроенные платы",
+    "pins": {
+      "digital": 22,
+      "analog": 6,
+      "pwm": "all",
+      "uart": 2,
+      "i2c": 1,
+      "spi": 1,
+      "touch": 10,
+      "adc": 6,
+      "dac": 2
+    },
+    "isBuiltIn": true,
+    "properties": {
+      "build.mcu": "esp32c3",
+      "build.f_cpu": "160000000L",
+      "build.variant": "esp32c3",
+      "upload.speed": "921600",
+      "upload.protocol": "esptool",
+      "upload.maximum_size": "4194304",
+      "build.flash_size": "4MB",
+      "build.partitions": "default",
+      "build.debug_level": "none",
+      "build.arduino.stack_size": "32768"
+    },
+    "uploadSettings": {
+      "speed": "921600",
+      "protocol": "esptool",
+      "flash_size": "4MB",
+      "flash_mode": "dio",
+      "flash_freq": "80m",
+      "partition_scheme": "default",
+      "upload_speed": "921600",
+      "core": "esp32"
+    },
+    "specifications": {
+      "cpu": "ESP32-C3 RISC-V Single-Core 32-bit @ 160MHz",
+      "flash": "4MB",
+      "ram": "400KB SRAM",
+      "wifi": "802.11 b/g/n (2.4GHz)",
+      "bluetooth": "Bluetooth 5.0 LE",
+      "gpio": "22 цифровых, 6 аналоговых",
+      "uart": "2 x UART",
+      "i2c": "1 x I2C",
+      "spi": "1 x SPI",
+      "pwm": "Все цифровые пины поддерживают ШИМ",
+      "adc": "6 x 12-bit ADC",
+      "dac": "2 x 8-bit DAC",
+      "touch": "10 touch sensors",
+      "usb": "USB-C для программирования и питания",
+      "voltage": "3.3V",
+      "current": "500mA max"
+    },
+    "pinout": {
+      "gpio0": { "functions": ["GPIO", "ADC1_CH0", "TOUCH1"], "notes": "Boot mode pin" },
+      "gpio1": { "functions": ["GPIO", "ADC1_CH1", "TOUCH2"], "notes": "TX for Serial1" },
+      "gpio2": { "functions": ["GPIO", "ADC1_CH2", "TOUCH3"], "notes": "RX for Serial1" },
+      "gpio3": { "functions": ["GPIO", "ADC1_CH3", "TOUCH4"], "notes": "Default TX for Serial0" },
+      "gpio4": { "functions": ["GPIO", "ADC1_CH4", "TOUCH5"], "notes": "Default RX for Serial0" },
+      "gpio5": { "functions": ["GPIO", "ADC2_CH0"], "notes": "SPI CS" },
+      "gpio6": { "functions": ["GPIO", "ADC2_CH1"], "notes": "SPI SCK" },
+      "gpio7": { "functions": ["GPIO", "ADC2_CH2"], "notes": "SPI MOSI" },
+      "gpio8": { "functions": ["GPIO", "ADC2_CH3"], "notes": "SPI MISO" },
+      "gpio9": { "functions": ["GPIO", "ADC2_CH4"], "notes": "I2C SDA" },
+      "gpio10": { "functions": ["GPIO", "ADC2_CH5"], "notes": "I2C SCL" },
+      "gpio18": { "functions": ["GPIO", "USB_D-"], "notes": "USB data -" },
+      "gpio19": { "functions": ["GPIO", "USB_D+"], "notes": "USB data +" },
+      "gpio20": { "functions": ["GPIO"], "notes": "LED_BUILTIN" },
+      "gpio21": { "functions": ["GPIO"], "notes": "Button" }
+    },
+    "features": [
+      "Wi-Fi 2.4GHz 802.11b/g/n",
+      "Bluetooth 5.0 Low Energy",
+      "RISC-V процессор 160MHz",
+      "Встроенная поддержка USB",
+      "Низкое энергопотребление",
+      "Поддержка Arduino, ESP-IDF",
+      "Родная поддержка в PlatformIO"
+    ]
+  }
+}
