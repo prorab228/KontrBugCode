@@ -40,26 +40,26 @@
             <div class="header-controls">
                 <!-- Левая часть: плата, примеры, компиляция, загрузка -->
                 <div class="header-left">
-<!--                    <button class="btn btn-icon" onclick="compileSketch()" title="Скомпилировать">-->
-<!--                        <span class="icon btn-compile"></span>-->
-<!--                    </button>-->
-<!--                    <button class="btn btn-icon" onclick="showUploadModal()" title="Загрузить на контроллер">-->
-<!--                        <span class="icon btn-upload"></span>-->
-<!--                    </button>-->
+                    <button class="btn btn-icon" onclick="compileSketch()" title="Скомпилировать">
+                        <span class="icon btn-compile"></span>
+                    </button>
+                    <button class="btn btn-icon" onclick="showUploadModal()" title="Загрузить на контроллер">
+                        <span class="icon btn-upload"></span>
+                    </button>
 
-<!--                    <div class="board-selector">-->
-<!--                        <select id="boardSelect">-->
-<!--                            <option value="zero">КонтрБаг ZERO</option>-->
-<!--                            <option value="uno">Arduino Uno</option>-->
-<!--                            <option value="nano">Arduino Nano</option>-->
-<!--                            <option value="mega">Arduino Mega 2560</option>-->
-<!--                            <option value="leonardo">Arduino Leonardo</option>-->
-<!--                            <option value="micro">Arduino Micro</option>-->
-<!--                            <option value="mini">Arduino Pro Mini</option>-->
-<!--                            <option value="esp8266">ESP8266 (NodeMCU)</option>-->
-<!--                            <option value="esp32">ESP32</option>-->
-<!--                        </select>-->
-<!--                    </div>-->
+                    <div class="board-selector">
+                        <select id="boardSelect">
+                            <option value="zero">КонтрБаг ZERO</option>
+                            <option value="uno">Arduino Uno</option>
+                            <option value="nano">Arduino Nano</option>
+                            <option value="mega">Arduino Mega 2560</option>
+                            <option value="leonardo">Arduino Leonardo</option>
+                            <option value="micro">Arduino Micro</option>
+                            <option value="mini">Arduino Pro Mini</option>
+                            <option value="esp8266">ESP8266 (NodeMCU)</option>
+                            <option value="esp32">ESP32</option>
+                        </select>
+                    </div>
 
                     <div class="examples-dropdown">
                         <button class="btn btn-icon" title="Примеры">
@@ -101,12 +101,9 @@
                     <button class="btn btn-icon" onclick="toggleSimpleMode()" title="Простой/сложный режим">
                         <span class="icon btn-settings"></span>
                     </button>
-<!--                    <button class="btn btn-icon" onclick="openSimulator()" title="Открыть симулятор">-->
-<!--                        <span class="icon btn-simulator">▶️</span>-->
-<!--                    </button>-->
-<!--                    <button class="btn btn-icon btn-warning" onclick="installArduinoCLI()" id="installCliBtn" title="Установить arduino-cli" style="display: none;">-->
-<!--                        <span class="icon btn-settings"></span> Уст. CLI-->
-<!--                    </button>-->
+                    <button class="btn btn-icon btn-warning" onclick="installArduinoCLI()" id="installCliBtn" title="Установить arduino-cli" style="display: none;">
+                        <span class="icon btn-settings"></span> Уст. CLI
+                    </button>
 
                     <button class="btn btn-icon theme-toggle" onclick="toggleTheme()" title="Сменить тему">
                         <span class="icon btn-theme"></span>
@@ -386,66 +383,66 @@
                 </div>
             </div>
 
-<!--            <div class="output-panel collapsed" id="outputPanel">-->
-<!--                <div class="panel-header">-->
-<!--                    <div class="output-panel-tabs">-->
-<!--                        <div class="output-panel-tab active" data-tab="log" onclick="switchOutputTab('log')">Вывод</div>-->
-<!--                        <div class="output-panel-tab" data-tab="serial" onclick="switchOutputTab('serial')">Монитор порта</div>-->
-<!--                    </div>-->
-<!--                    <div class="panel-header-controls">-->
-<!--                        <button class="collapse-btn btn-icon" onclick="toggleOutputPanel()" title="Свернуть/развернуть">-->
-<!--                            <span class="icon"></span>-->
-<!--                        </button>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--                <div class="panel-content">-->
-<!--                    <div id="logTab" class="output-tab-content active">-->
-<!--                        <div id="logOutput" class="log-output"></div>-->
-<!--                    </div>-->
-<!--                    <div id="serialTab" class="output-tab-content">-->
-<!--                        <div class="serial-controls">-->
-<!--                            <select id="serialPortSelect" class="serial-select">-->
-<!--                                <option value="">Выберите порт...</option>-->
-<!--                            </select>-->
-<!--                            <select id="serialBaudSelect" class="serial-select">-->
-<!--                                <option value="9600">9600</option>-->
-<!--                                <option value="115200">115200</option>-->
-<!--                                <option value="57600">57600</option>-->
-<!--                                <option value="38400">38400</option>-->
-<!--                                <option value="19200">19200</option>-->
-<!--                                <option value="14400">14400</option>-->
-<!--                                <option value="4800">4800</option>-->
-<!--                                <option value="2400">2400</option>-->
-<!--                                <option value="1200">1200</option>-->
-<!--                            </select>-->
-<!--                            <button id="serialConnectBtn" class="btn btn-success btn-icon" onclick="toggleSerialConnection()">-->
-<!--                                <span class="icon btn-connect"></span> Подключить-->
-<!--                            </button>-->
-<!--                            <button id="serialDisconnectBtn" class="btn btn-danger btn-icon" onclick="toggleSerialConnection()" style="display: none;">-->
-<!--                                <span class="icon btn-disconnect"></span> Отключить-->
-<!--                            </button>-->
-<!--                            <button class="btn btn-secondary btn-icon" onclick="refreshSerialPorts()">-->
-<!--                                <span class="icon btn-refresh"></span> Обновить-->
-<!--                            </button>-->
-<!--                            <button class="btn btn-secondary btn-icon" onclick="clearSerialMonitor()">-->
-<!--                                <span class="icon btn-clear"></span> Очистить-->
-<!--                            </button>-->
-<!--                            <input type="text" id="serialInput" placeholder="Введите данные для отправки..." class="serial-input">-->
-<!--                            <button class="btn btn-info btn-icon" onclick="sendSerialData()">-->
-<!--                                <span class="icon btn-send"></span> Отправить-->
-<!--                            </button>-->
-<!--                        </div>-->
+            <div class="output-panel collapsed" id="outputPanel">
+                <div class="panel-header">
+                    <div class="output-panel-tabs">
+                        <div class="output-panel-tab active" data-tab="log" onclick="switchOutputTab('log')">Вывод</div>
+                        <div class="output-panel-tab" data-tab="serial" onclick="switchOutputTab('serial')">Монитор порта</div>
+                    </div>
+                    <div class="panel-header-controls">
+                        <button class="collapse-btn btn-icon" onclick="toggleOutputPanel()" title="Свернуть/развернуть">
+                            <span class="icon"></span>
+                        </button>
+                    </div>
+                </div>
+                <div class="panel-content">
+                    <div id="logTab" class="output-tab-content active">
+                        <div id="logOutput" class="log-output"></div>
+                    </div>
+                    <div id="serialTab" class="output-tab-content">
+                        <div class="serial-controls">
+                            <select id="serialPortSelect" class="serial-select">
+                                <option value="">Выберите порт...</option>
+                            </select>
+                            <select id="serialBaudSelect" class="serial-select">
+                                <option value="9600">9600</option>
+                                <option value="115200">115200</option>
+                                <option value="57600">57600</option>
+                                <option value="38400">38400</option>
+                                <option value="19200">19200</option>
+                                <option value="14400">14400</option>
+                                <option value="4800">4800</option>
+                                <option value="2400">2400</option>
+                                <option value="1200">1200</option>
+                            </select>
+                            <button id="serialConnectBtn" class="btn btn-success btn-icon" onclick="toggleSerialConnection()">
+                                <span class="icon btn-connect"></span> Подключить
+                            </button>
+                            <button id="serialDisconnectBtn" class="btn btn-danger btn-icon" onclick="toggleSerialConnection()" style="display: none;">
+                                <span class="icon btn-disconnect"></span> Отключить
+                            </button>
+                            <button class="btn btn-secondary btn-icon" onclick="refreshSerialPorts()">
+                                <span class="icon btn-refresh"></span> Обновить
+                            </button>
+                            <button class="btn btn-secondary btn-icon" onclick="clearSerialMonitor()">
+                                <span class="icon btn-clear"></span> Очистить
+                            </button>
+                            <input type="text" id="serialInput" placeholder="Введите данные для отправки..." class="serial-input">
+                            <button class="btn btn-info btn-icon" onclick="sendSerialData()">
+                                <span class="icon btn-send"></span> Отправить
+                            </button>
+                        </div>
 
-<!--                        <div id="serialOutput" class="serial-output"></div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--                <div class="resize-handle vertical"></div>-->
-<!--            </div>-->
+                        <div id="serialOutput" class="serial-output"></div>
+                    </div>
+                </div>
+                <div class="resize-handle vertical"></div>
+            </div>
         </div>
 
         <div class="status-bar">
             <div id="status">Готов к работе</div>
-            <div id = "version">КонтрБагКОД v1.0 | 🐞 Без багов!</div>
+            <div>КонтрБагКОД v1.0 | 🐞 Без багов!</div>
         </div>
     </div>
 
@@ -795,42 +792,6 @@
     <script src="js/upload/uploadManager.js"></script>
 <!--    <script src="js/test/linux-permissions.js"></script>-->
 
-<!--    СИМУЛЯТОР-->
-    <script src="js/simulator/components/BaseComponent.js"></script>
-    <script src="js/simulator/components/ButtonComponent.js"></script>
-    <script src="js/simulator/components/BuzzerComponent.js"></script>
-    <script src="js/simulator/components/LCDComponent.js"></script>
-    <script src="js/simulator/components/LEDComponent.js"></script>
-    <script src="js/simulator/components/PotentiometerComponent.js"></script>
-    <script src="js/simulator/components/ServoComponent.js"></script>
-    <script src="js/simulator/components/BatteryComponent.js"></script>
-    <script src="js/simulator/components/ResistorComponent.js"></script>
-
-
-
-<!--    <script src="js/simulator/cpp/compilerWorker.js"></script>-->
-<!--    <script src="js/simulator/cpp/WasmArduinoManager.js"></script>-->
-
-    <script src="js/simulator/core/ArduinoCodeParser.js"></script>
-    <script src="js/simulator/core/ComponentManager.js"></script>
-    <script src="js/simulator/core/ExecutionEngine.js"></script>
-    <script src="js/simulator/core/PinManager.js"></script>
-    <script src="js/simulator/core/SimulatorCore.js"></script>
-    <script src="js/simulator/core/CircuitSimulator.js"></script>
-
-    <script src="js/simulator/ui/SimulatorModalHTML.js"></script>
-    <script src="js/simulator/ui/CanvasController.js"></script>
-    <script src="js/simulator/ui/ComponentController.js"></script>
-    <script src="js/simulator/ui/WireController.js"></script>
-    <script src="js/simulator/ui/UIController.js"></script>
-    <script src="js/simulator/ui/SimulationLock.js"></script>
-    <script src="js/simulator/ui/SimulatorUI.js"></script>
-    <script src="js/simulator/ui/BoardRenderer.js"></script>
-    <script src="js/simulator/ui/ComponentRenderer.js"></script>
-    <script src="js/simulator/ui/ConnectionManager.js"></script>
-    <script src="js/simulator/ui/SimulatorUI.js"></script>
-
-    <script src="js/simulator/SimulatorManager.js"></script>
     <!-- Main renderer -->
     <script src="renderer.js"></script>
 
