@@ -7,6 +7,8 @@ const yauzl = require('yauzl');
 class MenuManager {
   constructor(appService) {
     this.app = appService;
+    this.APP_VERSION = '1.0.7 Beta';
+    this.APP_AUTHOR = 'Лунев Валерий Константинович ';
   }
 
   createCompleteMenu(libraries = []) {
@@ -336,7 +338,7 @@ class MenuManager {
         type: 'info',
         title: 'О программе',
         message: 'КонтрБагКОД',
-        detail: 'Редактор кода с поддержкой программирования блоками и кодом для контроллера ZERO и платформ Arduino \nВерсия 1.0.6\n\n© КонтрБагТех: https://www.контрбагтех.рф '
+        detail: `Редактор кода с поддержкой программирования блоками и кодом для контроллера ZERO и платформ Arduino \nВерсия ${this.APP_VERSION} \n\n© КонтрБагТех: https://www.контрбагтех.рф `
       });
     }
   }

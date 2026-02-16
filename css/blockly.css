@@ -62,10 +62,10 @@
     stroke: rgba(0,255,0,1) !important;
     stroke-width: 7px;
 }
-/* Подсветка совместимых соединений */
+/* Подсветка совместимых соединений
 .blocklyInsertionMarker {
     stroke: rgba(0,255,0,1) !important;
     stroke-width: 2px;
 }
-
+*/
 

@@ -118,31 +118,34 @@
     width: 4px;
 }
 
+/* Ручка изменения размера (вертикальная) */
 .resize-handle.vertical {
     position: absolute;
-    top: -3px;
+    top: 0;          /* было bottom: 0 */
     left: 0;
-    right: 0;
-    height: 6px;
     width: 100%;
+    height: 6px;
+    background: transparent;
     cursor: ns-resize;
-    z-index: 20;
+    transition: background 0.2s;
+    z-index: 10;
 }
 
-.resize-handle.vertical::before {
-    content: '';
-    position: absolute;
-    top: 2px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 40px;
-    height: 2px;
-    background: var(--border-color);
-    border-radius: 1px;
-}
-
-.resize-handle.vertical:hover::before {
+.resize-handle.vertical:hover,
+.resize-handle.vertical:active {
     background: var(--primary-color);
+    opacity: 0.5;
+}
+
+/* Когда панель свёрнута – ручка неактивна */
+.output-panel.collapsed .resize-handle.vertical {
+    display: none;
+}
+
+/* Курсор для всего документа во время ресайза */
+body.resizing-vertical {
+    cursor: ns-resize;
+    user-select: none;
 }
 
 /* Log Output */

@@ -5,6 +5,7 @@ class UIManager {
 
         this.initCodeEditor();
         this.initResizeHandles();
+        this.initOutputResize(); // Добавить эту строку
 
         this.currentMode = localStorage.getItem('Mode') || 'BlocksMode';
         if(this.currentMode == 'BlocksMode') this.switchToBlocksMode();
@@ -57,11 +58,124 @@ class UIManager {
 
         if (this.isOutputPanelExpanded) {
             outputPanel.classList.remove('collapsed');
-            outputPanel.style.height = '300px';
+            // Если высота не задана или равна минимальной – ставим 200px
+            if (!outputPanel.style.height || parseInt(outputPanel.style.height) <= this.resizeState.minHeight) {
+                outputPanel.style.height = '200px';
+            }
         } else {
             outputPanel.classList.add('collapsed');
-            outputPanel.style.height = '40px';
+            outputPanel.style.height = this.resizeState.minHeight + 'px';
         }
+
+        // Обновляем Blockly
+        setTimeout(() => this.resizeBlockly(), 100);
+    }
+
+    /**
+     * Инициализация возможности изменения высоты outputPanel
+     */
+    static initOutputResize() {
+        const handle = document.querySelector('.output-panel .resize-handle.vertical');
+        const panel = document.getElementById('outputPanel');
+        if (!handle || !panel) return;
+
+        // Переменные для ресайза
+        this.resizeState = {
+            isResizing: false,
+            startY: 0,
+            startHeight: 0,
+            panel: panel,
+            minHeight: 40,          // соответствует collapsed
+            maxHeight: window.innerHeight - 150 // запас под шапку и статус-бар
+        };
+
+        // Нажатие на ручку
+        handle.addEventListener('mousedown', (e) => this.startResize(e));
+
+        // Обработчики на window (чтобы ловить движения вне панели)
+        window.addEventListener('mousemove', (e) => this.doResize(e));
+        window.addEventListener('mouseup', () => this.stopResize());
+
+        // Дополнительно: двойной клик для сброса высоты
+        handle.addEventListener('dblclick', () => this.resetOutputPanelHeight());
+    }
+
+    /**
+     * Начало изменения размера
+     */
+    static startResize(e) {
+        e.preventDefault(); // предотвращаем выделение текста
+
+        const state = this.resizeState;
+        if (!state) return;
+
+        // Если панель свёрнута – ничего не делаем (можно игнорировать, так как ручка скрыта)
+        if (state.panel.classList.contains('collapsed')) return;
+
+        state.isResizing = true;
+        state.startY = e.clientY;
+        state.startHeight = state.panel.offsetHeight;
+
+        document.body.classList.add('resizing-vertical');
+    }
+
+    /**
+     * Процесс изменения размера
+     */
+    static doResize(e) {
+        const state = this.resizeState;
+        if (!state || !state.isResizing) return;
+
+        e.preventDefault();
+
+        const deltaY = e.clientY - state.startY;
+        let newHeight = state.startHeight - deltaY;   // ← инвертировано
+
+        // Ограничиваем min/max
+        newHeight = Math.max(state.minHeight, Math.min(state.maxHeight, newHeight));
+
+        state.panel.style.height = newHeight + 'px';
+
+        // Если панель была свёрнута, но мы её растянули – убираем класс collapsed
+        if (newHeight > state.minHeight && state.panel.classList.contains('collapsed')) {
+            state.panel.classList.remove('collapsed');
+            UIManager.isOutputPanelExpanded = true;
+        }
+
+        // Обновляем размеры Blockly
+        this.resizeBlockly();
+    }
+
+    /**
+     * Окончание изменения размера
+     */
+    static stopResize() {
+        const state = this.resizeState;
+        if (!state) return;
+
+        if (state.isResizing) {
+            state.isResizing = false;
+            document.body.classList.remove('resizing-vertical');
+
+            // Если высота стала равна минимальной – автоматически сворачиваем
+            if (Math.abs(state.panel.offsetHeight - state.minHeight) < 5) {
+                state.panel.classList.add('collapsed');
+                UIManager.isOutputPanelExpanded = false;
+            }
+        }
+    }
+
+    /**
+     * Сброс высоты панели к значению по умолчанию (200px)
+     */
+    static resetOutputPanelHeight() {
+        const state = this.resizeState;
+        if (!state) return;
+
+        state.panel.style.height = '200px';
+        state.panel.classList.remove('collapsed');
+        UIManager.isOutputPanelExpanded = true;
+        this.resizeBlockly();
     }
 
     // View Modes

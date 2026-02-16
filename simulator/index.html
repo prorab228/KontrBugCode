@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>КонтрБагКОД - Симулятор цепей</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .simulator-container {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+        }
+
+        .simulator-toolbar {
+            padding: 10px;
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .simulator-main {
+            flex: 1;
+            display: flex;
+            overflow: hidden;
+        }
+
+        .component-palette {
+            width: 250px;
+            background: var(--bg-secondary);
+            border-right: 1px solid var(--border-color);
+            padding: 15px;
+            overflow-y: auto;
+        }
+
+        .workspace-area {
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+        }
+
+        #simulatorCanvas {
+            width: 100%;
+            height: 100%;
+            background: var(--bg-tertiary);
+            cursor: default;
+        }
+
+        .property-panel {
+            width: 300px;
+            background: var(--bg-secondary);
+            border-left: 1px solid var(--border-color);
+            padding: 15px;
+            overflow-y: auto;
+        }
+
+        .component-item {
+            padding: 10px;
+            margin: 5px 0;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            cursor: grab;
+            user-select: none;
+            transition: all 0.2s;
+        }
+
+        .component-item:hover {
+            background: var(--bg-primary);
+            transform: translateY(-2px);
+        }
+
+        .component-category {
+            margin-bottom: 15px;
+        }
+
+        .component-category h4 {
+            margin-bottom: 10px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .tool-button {
+            padding: 8px 15px;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .tool-button:hover {
+            background: var(--bg-primary);
+        }
+
+        .tool-button.active {
+            background: var(--accent-color);
+            color: white;
+        }
+
+        .status-bar {
+            padding: 8px 15px;
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border-color);
+            font-size: 12px;
+            display: flex;
+            justify-content: space-between;
+        }
+    </style>
+</head>
+<body>
+    <div class="simulator-container">
+        <div class="simulator-toolbar">
+            <button id="runBtn" class="tool-button">▶️ Запуск</button>
+            <button id="pauseBtn" class="tool-button">⏸️ Пауза</button>
+            <button id="resetBtn" class="tool-button">🔄 Сброс</button>
+            <button id="clearBtn" class="tool-button">🗑️ Очистить</button>
+
+            <div style="flex: 1;"></div>
+
+            <div class="tool-group">
+                <button id="selectTool" class="tool-button active" title="Выбор">↖️</button>
+                <button id="wireTool" class="tool-button" title="Провод">🔌</button>
+                <button id="deleteTool" class="tool-button" title="Удалить">✂️</button>
+            </div>
+
+            <div class="speed-control">
+                <label>Скорость:</label>
+                <input type="range" id="speedSlider" min="0.1" max="10" step="0.1" value="1">
+                <span id="speedValue">1.0x</span>
+            </div>
+        </div>
+
+        <div class="simulator-main">
+            <div class="component-palette" id="componentPalette">
+                <!-- Динамически заполняется -->
+            </div>
+
+            <div class="workspace-area">
+                <canvas id="simulatorCanvas"></canvas>
+                <div id="gridOverlay"></div>
+            </div>
+
+            <div class="property-panel" id="propertyPanel">
+                <h3>Свойства</h3>
+                <div id="propertyContent">
+                    <p class="placeholder">Выберите компонент</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="status-bar">
+            <div id="mousePosition">x: 0, y: 0</div>
+            <div id="simulationStatus">Готов</div>
+            <div>Компонентов: <span id="componentCount">0</span></div>
+            <div>Проводов: <span id="wireCount">0</span></div>
+            <div id="circuitStatus" class="status-ok">✅ Цепь исправна</div>
+        </div>
+    </div>
+
+    <!-- Модальные окна -->
+    <div id="serialModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Монитор порта Arduino</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="serialOutput" class="serial-monitor"></div>
+                <div class="serial-input-group">
+                    <input type="text" id="serialInput" placeholder="Отправить команду...">
+                    <button id="serialSendBtn">📤</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Добавьте перед закрывающим тегом body -->
+
+    <!-- HUD (Head-Up Display) -->
+    <div id="hud" class="hud" style="display: none;">
+        <div class="hud-line">
+            <span class="hud-label">Симуляция:</span>
+            <span id="hudStatus" class="hud-value stopped">Остановлена</span>
+        </div>
+        <div class="hud-line">
+            <span class="hud-label">Компонентов:</span>
+            <span id="hudComponents" class="hud-value">0</span>
+        </div>
+        <div class="hud-line">
+            <span class="hud-label">Проводов:</span>
+            <span id="hudWires" class="hud-value">0</span>
+        </div>
+        <div class="hud-line">
+            <span class="hud-label">FPS:</span>
+            <span id="hudFPS" class="hud-value">0</span>
+        </div>
+    </div>
+
+    <!-- Информация о выбранном компоненте -->
+    <div id="componentInfo" class="component-info" style="display: none;">
+        <h4 id="componentInfoTitle">Компонент</h4>
+        <div id="componentInfoContent">
+            <!-- Динамически заполняется -->
+        </div>
+    </div>
+
+    <!-- Подключение скриптов -->
+    <script src="js/core/Component.js"></script>
+    <script src="js/core/Wire.js"></script>
+    <script src="js/core/Node.js"></script>
+<!--    <script src="js/core/CircuitCalculator.js"></script>-->
+<!--    <script src="js/physics/CircuitSolver.js"></script>-->
+<!--    <script src="js/physics/ShortCircuitDetector.js"></script>-->
+<!--    <script src="js/physics/SimpleSolver.js"></script>-->
+    <script src="js/physics/VoltagePropagator.js"></script>
+    <script src="js/physics/CircuitAnalyzer.js"></script>
+    <!-- Компоненты -->
+    <script src="js/components/BaseComponent.js"></script>
+    <script src="js/components/VoltageSource.js"></script>
+    <script src="js/components/Arduino.js"></script>
+    <script src="js/components/LED.js"></script>
+    <script src="js/components/Motor.js"></script>
+    <script src="js/components/Servo.js"></script>
+    <script src="js/components/Buzzer.js"></script>
+    <script src="js/components/Battery.js"></script>
+    <script src="js/components/Resistor.js"></script>
+    <script src="js/components/Potentiometer.js"></script>
+    <script src="js/components/Switch.js"></script>
+    <script src="js/components/L298N.js"></script>
+    <script src="js/components/GearMotor.js"></script>
+    <script src="js/components/PowerSupply.js"></script>
+    <script src="js/components/ACSource.js"></script>
+    <script src="js/components/Capacitor.js"></script>
+    <script src="js/components/Inductor.js"></script>
+
+
+
+    <!-- UI -->
+    <script src="js/ui/CanvasRenderer.js"></script>
+    <script src="js/ui/ComponentPalette.js"></script>
+    <script src="js/ui/WireTool.js"></script>
+    <script src="js/ui/PropertyPanel.js"></script>
+
+    <!-- Главный скрипт -->
+    <script src="js/simulator.js"></script>
+    <script src="simulator.js"></script>
+    <script src="HUD.js"></script>
+</body>
+</html>

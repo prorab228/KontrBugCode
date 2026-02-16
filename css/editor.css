@@ -116,10 +116,11 @@
 #codeEditor {
     background: transparent;
     color: transparent;
-    caret-color: white;
+    caret-color: var(--code-text);
     position: absolute;
     z-index: 2;
 }
+
 
 #codeEditorPreview {
     background: var(--surface);

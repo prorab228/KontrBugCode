@@ -23,6 +23,10 @@ if (typeof require !== 'undefined' && !window.ipcRenderer) {
 
 class AppController {
     constructor() {
+
+        this.APP_VERSION = '1.0.7 Beta';
+        this.APP_AUTHOR = 'Лунев Валерий Константинович ';
+
         this.workspace = null;
         this.initialized = false;
         this.workspaceReady = false;
@@ -45,6 +49,9 @@ class AppController {
                 window.ProjectStateManager = new ProjectStateManager();
                 await window.ProjectStateManager.init();
             }
+
+            // Устанавливаем номер версии
+            document.getElementById('version').innerHTML = `<strong>Версия:</strong> ${this.APP_VERSION}`;
 
             this.updateRecentProjectsMenu();
 
@@ -86,6 +93,7 @@ class AppController {
             { name: 'SerialManager', init: 'init' },
             { name: 'CodeToBlocksConverter', init: 'init' },
             { name: 'UploadManager', init: 'init' },
+            { name: 'SimulatorManager', init: 'init' },
             { name: 'LogManager', init: 'init' }
         ];
 
@@ -227,7 +235,7 @@ class AppController {
             'upload-progress': (event, data) => window.UploadManager?.handleUploadProgress(data),
             // В setupIpcListeners() добавить:
             'menu-board-management': () => window.boardManagementModal.showModal(),
-
+            'menu-open-simulator': () => window.openSimulator(),
             'boards-config-loaded': (event, configData) => {
                 console.log('Boards config loaded from main process');
                 // Сохраняем в localStorage для доступа в BoardUIManager
@@ -719,6 +727,29 @@ window.switchTab = (tabName) => {
     }
 };
 
+// Добавить глобальную функцию:
+window.openCircuitSimulator = function(code = '') {
+    // Проверяем, находимся ли мы в Electron
+    if (window.ipcRenderer) {
+        // Открываем симулятор в отдельном окне через IPC
+        window.ipcRenderer.send('open-circuit-simulator', {
+            code: code,
+            boardType: document.getElementById('boardSelect').value
+        });
+    } else {
+        // Если в браузере - открываем в новой вкладке
+        const encodedCode = btoa(encodeURIComponent(code));
+        window.open(`simulator/index.html?arduinoCode=${encodedCode}`, '_blank');
+    }
+};
+
+// Обновить функцию openSimulator в renderer.js:
+window.openSimulator = () => {
+    const code = window.UIManager?.getCurrentCode() || '';
+    window.openCircuitSimulator(code);
+};
+
+
 window.toggleCodePanel = () => {
     window.UIManager?.toggleCodePanel();
     window.ProjectStateManager.saveProjectState();
@@ -835,6 +866,19 @@ window.addEventListener('DOMContentLoaded', () => {
     if (window.UIManager && window.UIManager.init) {
         window.UIManager.init();
     }
+
+//    // Проверяем наличие необходимых компонентов симулятора
+//    if (typeof SimulatorCore !== 'undefined') {
+//        console.log('Simulator modules loaded successfully');
+//
+//        // Инициализируем глобальный менеджер симулятора
+//        if (typeof SimulatorManager !== 'undefined') {
+//            window.simulatorManager = new SimulatorManager().init();
+//            console.log('SimulatorManager initialized');
+//        }
+//    } else {
+//        console.warn('Simulator modules not loaded');
+//    }
 
     // Инициализируем основное приложение
     setTimeout(() => {

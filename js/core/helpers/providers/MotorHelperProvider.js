@@ -102,8 +102,6 @@ void stepMotor(int pin1, int pin2, int pin3, int pin4, int steps) {
     generateL298NHelper = () => {
         return `
 // L298N single motor helper
-int L298N_IN1, L298N_IN2, L298N_ENA;
-
 void setL298NMotor(int speed) {
   speed = constrain(speed, -255, 255);
 
@@ -126,9 +124,6 @@ void setL298NMotor(int speed) {
 
     generateL298NDualHelper = () => {
         return `
-// L298N dual motors helper
-int L298N_IN1, L298N_IN2, L298N_ENA;
-int L298N_IN3, L298N_IN4, L298N_ENB;
 
 void setL298NDualMotors(int motorA, int motorB) {
   motorA = constrain(motorA, -255, 255);
