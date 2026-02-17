@@ -23,7 +23,7 @@ class WindowManager {
       show: false
     });
 
-    this.mainWindow.loadFile('index.html');
+    this.mainWindow.loadFile('index-desktop.html');
 
     this.mainWindow.webContents.on('did-finish-load', () => {
       this.sendBoardsConfig();

@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>КонтрБагКОД - Визуальный редактор </title>
+
+    <!-- Blockly из CDN -->
+<!--    <script src="https://cdn.jsdelivr.net/npm/blockly@9.2.0/blockly.min.js"></script>-->
+<!--    <script src="https://cdn.jsdelivr.net/npm/blockly@9.2.0/msg/ru.js"></script>-->
+
+    <script src="assets/blockly/blockly.min.js"></script>
+    <script src="assets/blockly/msg/ru.js"></script>
+
+    <!-- Highlight.js для подсветки синтаксиса -->
+<!--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/vs2015.min.css">-->
+<!--    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>-->
+<!--    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/languages/arduino.min.js"></script>-->
+
+
+    <link rel="stylesheet" href="assets/highlight/styles/vs2015.min.css">
+    <script src="assets/highlight/highlight.min.js"></script>
+    <script src="assets/highlight/arduino.min.js"></script>
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">
+                <div class="logo-image">
+                    <img src="logo_white.png" alt="КонтрБагКОД" class="logo-img">
+                </div>
+                <div class="logo-text">
+                    <h1>КонтрБагКОД</h1>
+                    <span class="subtitle">Визуальный редактор Arduino</span>
+                </div>
+            </div>
+
+            <div class="header-controls">
+                <!-- Левая часть: плата, примеры, компиляция, загрузка -->
+                <div class="header-left">
+                    <button class="btn btn-icon" onclick="compileSketch()" title="Скомпилировать">
+                        <span class="icon btn-compile"></span>
+                    </button>
+                    <button class="btn btn-icon" onclick="showUploadModal()" title="Загрузить на контроллер">
+                        <span class="icon btn-upload"></span>
+                    </button>
+
+                    <div class="board-selector">
+                        <select id="boardSelect">
+                            <option value="zero">КонтрБаг ZERO</option>
+                            <option value="uno">Arduino Uno</option>
+                            <option value="nano">Arduino Nano</option>
+                            <option value="mega">Arduino Mega 2560</option>
+                            <option value="leonardo">Arduino Leonardo</option>
+                            <option value="micro">Arduino Micro</option>
+                            <option value="mini">Arduino Pro Mini</option>
+                            <option value="esp8266">ESP8266 (NodeMCU)</option>
+                            <option value="esp32">ESP32</option>
+                        </select>
+                    </div>
+
+                    <div class="examples-dropdown">
+                        <button class="btn btn-icon" title="Примеры">
+                            <span class="icon btn-examples"></span> Примеры
+                        </button>
+                        <div class="dropdown-content">
+                            <div onclick="loadExample('start')">Стартовый пример</div>
+                            <div onclick="loadExample('blink')">Мигающий светодиод</div>
+                            <div onclick="loadExample('button')">Управление кнопкой</div>
+                            <div onclick="loadExample('ultrasonic')">Ультразвуковой дальномер</div>
+                            <div onclick="loadExample('dc_motor')">DC мотор</div>
+                            <div onclick="loadExample('servo')">Сервомотор</div>
+                            <div onclick="loadExample('oled')">OLED дисплей</div>
+                            <div onclick="loadExample('bluetooth')">Bluetooth</div>
+                            <div onclick="loadExample('line_follower')">Следующий линию</div>
+                            <div onclick="loadExample('serial')">Монитор порта</div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Центральная часть: переключатель режимов -->
+                <div class="header-center">
+                    <div class="view-toggle">
+                        <button class="btn btn-icon active" id="blocksModeBtn" onclick="switchToBlocksMode()" title="Режим блоков">
+                            <span class="icon btn-blocks"></span> Блоки
+                        </button>
+                        <button class="btn btn-icon" id="codeModeBtn" onclick="switchToCodeMode()" title="Режим кода">
+                            <span class="icon btn-code"></span> Код
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Правая часть: кнопки управления и тема -->
+                <div class="header-right">
+                    <button class="btn btn-icon" onclick="toggleCodePanel()" id="toggleCodeBtn" title="Показать/скрыть код">
+                        <span class="icon btn-code"></span>
+                    </button>
+                    <button class="btn btn-icon" onclick="toggleSimpleMode()" title="Простой/сложный режим">
+                        <span class="icon btn-settings"></span>
+                    </button>
+                    <button class="btn btn-icon" onclick="openSimulator()" title="Открыть симулятор">
+                        <span class="icon btn-simulator">▶️</span>
+                    </button>
+                    <button class="btn btn-icon btn-warning" onclick="installArduinoCLI()" id="installCliBtn" title="Установить arduino-cli" style="display: none;">
+                        <span class="icon btn-settings"></span> Уст. CLI
+                    </button>
+
+                    <button class="btn btn-icon theme-toggle" onclick="toggleTheme()" title="Сменить тему">
+                        <span class="icon btn-theme"></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div id="toolbox" style="display: none;">
+                <category name="Основные" colour="0">
+                    <block type="arduino_setup"></block>
+                    <block type="arduino_loop"></block>
+                </category>
+                <category name="Монитор порта" colour="0">
+                        <block type="serial_begin"></block>
+                        <block type="serial_print"></block>
+                        <block type="serial_println"></block>
+                        <block type="serial_write"></block>
+                        <block type="serial_set_timeout"></block>
+
+                        <block type="serial_available"></block>
+                        <block type="serial_read_string"></block>
+                        <block type="serial_read_number"></block>
+                        <block type="serial_read_byte"></block>
+                        <block type="serial_read_until"></block>
+                        <block type="serial_flush"></block>
+                        <block type="serial_wait_data"></block>
+                </category>
+                <category name="Функции" colour="0">
+                   <block type="background_task"></block>
+                    <block type="function_definition"></block>
+                    <block type="function_call"></block>
+                    <block type="function_call_no_return"></block>
+                    <block type="function_return"></block>
+                </category>
+                <category name="Система" colour="0">
+                   <block type="interrupt_attach"></block>
+                   <block type="interrupt_detach"></block>
+                   <block type="system_reset"></block>
+                   <block type="eeprom_write"></block>
+                   <block type="eeprom_read"></block>
+                 </category>
+                <category name="Порты ввода/вывода" colour="230">
+                    <block type="pin_mode"></block>
+                    <block type="digital_write"></block>
+                    <block type="digital_read"></block>
+                    <block type="analog_write"></block>
+                    <block type="analog_read"></block>
+                </category>
+                <category name="Переменные" colour="330">
+                    <block type="variables_declare"></block>
+                    <block type="variables_set"></block>
+                    <block type="variables_set_dropdown"></block>
+                    <block type="variables_get"></block>
+                </category>
+                <category name="Числа" colour="330">
+                    <block type="math_number"></block>
+                    <block type="math_arithmetic"></block>
+                     <block type="math_random"></block>
+                     <block type="math_modulo"></block>
+                     <block type="math_divisible"></block>
+                </category>
+                <category name="Текст" colour="160">
+                    <block type="text"></block>
+                     <block type="text_join"></block>
+                    <block type="text_length"></block>
+                    <block type="text_convert_to_string"></block>
+                    <block type="text_start_with"></block>
+                </category>
+                <category name="Массивы" colour="160">
+                    <block type="array_create"></block>
+                    <block type="array_output"></block>
+                    <block type="array_set"></block>
+                    <block type="array_get"></block>
+                    <block type="array_length"></block>
+                    <block type="array_find"></block>
+                    <block type="array_fill"></block>
+                    <block type="array_copy"></block>
+                    <block type="array_sum"></block>
+                    <block type="array_average"></block>
+                    <block type="array_min"></block>
+                    <block type="array_max"></block>
+                    <block type="array_from_string"></block>
+                    <block type="array_join"></block>
+                    <block type="array_reverse"></block>
+                    <block type="array_slice"></block>
+                    <block type="variables_declare_array"></block>
+                    <block type="array_literal"></block>
+                </category>
+                <category name="Циклы" colour="210">
+                    <block type="controls_whileUntil"></block>
+                    <block type="controls_for"></block>
+                    <block type="controls_repeat_times"></block>
+                    <block type="controls_while"></block>
+                </category>
+                <category name="Логика" colour="210">
+                     <block type="controls_if"></block>
+                    <block type="controls_else_if"></block>
+                    <block type="controls_else"></block>
+                    <block type="logic_compare"></block>
+                    <block type="logic_operation"></block>
+                    <block type="logic_boolean"></block>
+                    <block type="logic_negate"></block>
+                </category>
+
+                <category name="Время" colour="230">
+                   <block type="delay"></block>
+                   <block type="time_seconds"></block>
+                   <block type="time_after_seconds"></block>
+                    <block type="rtc_begin"></block>
+                    <block type="rtc_set_datetime"></block>
+                    <block type="rtc_read_date"></block>
+                    <block type="rtc_read_time"></block>
+                    <block type="rtc_read_weekday"></block>
+                 </category>
+
+                <category name="Датчики" colour="120">
+                    <block type="sensor_ultrasonic"></block>
+                    <block type="sensor_ir_obstacle"></block>
+                    <block type="sensor_ir_line"></block>
+                    <block type="sensor_sound"></block>
+                    <block type="sensor_vl53lox"></block>
+                    <block type="sensor_tcs3472"></block>
+                    <block type="sensor_button"></block>
+                     <block type="encoder_begin"></block>
+                     <block type="encoder_read"></block>
+                     <block type="ds18b20_begin"></block>
+                     <block type="ds18b20_read_temp"></block>
+                     <!-- Добавляем DHT блоки -->
+                    <block type="dht_begin"></block>
+                    <block type="dht_read_temperature"></block>
+                    <block type="dht_read_humidity"></block>
+                    <block type="dht_compute_heat_index"></block>
+                    <block type="dht_read_all"></block>
+
+                </category>
+                <category name="Моторы" colour="30">
+                    <block type="l298n_begin"></block>
+                    <block type="l298n_motor"></block>
+                    <block type="l298n_dual_begin"></block>
+                    <block type="l298n_dual_motors"></block>
+                    <block type="motor_dc"></block>
+                    <block type="motor_servo"></block>
+                    <block type="motor_stepper"></block>
+                    <block type="controlbug_motors"></block>
+                </category>
+                <category name="Дисплеи" colour="260">
+                    <block type="lcd_i2c_begin"></block>
+                    <block type="lcd_spi_begin"></block>
+                    <block type="lcd_print"></block>
+                    <block type="lcd_clear"></block>
+                    <block type="lcd_backlight"></block>
+                    <block type="display_oled_text"></block>
+                    <block type="display_oled_clear"></block>
+                </category>
+                <category name="Связь" colour="290">
+                    <block type="bluetooth_begin"></block>
+                    <block type="bluetooth_send"></block>
+                    <block type="bluetooth_available"></block>
+                    <block type="bluetooth_receive"></block>
+                    <block type="ir_transmitter_begin"></block>
+                    <block type="ir_transmitter_send"></block>
+                    <block type="ir_receiver_begin"></block>
+                    <block type="ir_receiver_read"></block>
+                </category>
+                <!-- В toolbox добавляем новую категорию для ESP -->
+                <category name="ESP8266/ESP32" colour="160" >
+                    <block type="esp_wifi_begin"></block>
+                    <block type="esp_wifi_connected"></block>
+                    <block type="esp_wifi_ip"></block>
+                    <!-- Добавляем новые Wi-Fi блоки -->
+                    <block type="esp_wifi_scan"></block>
+                    <block type="esp_wifi_status"></block>
+                    <block type="esp_wifi_scan_count"></block>
+                    <block type="esp_wifi_network_info"></block>
+
+                    <block type="esp_http_get"></block>
+                    <block type="esp_http_post"></block>
+                    <block type="esp_mqtt_connect"></block>
+                    <block type="esp_mqtt_publish"></block>
+                    <block type="esp_mqtt_subscribe"></block>
+                    <block type="esp_mqtt_receive"></block>
+                    <!-- Добавляем новые MQTT блоки -->
+                    <block type="esp_mqtt_connected"></block>
+                    <block type="esp_mqtt_disconnect"></block>
+                    <block type="esp_mqtt_last_will"></block>
+                    <block type="esp_mqtt_reconnect"></block>
+                    <block type="esp_mqtt_keepalive"></block>
+                    <block type="esp_mqtt_receive"></block>
+                    <block type="esp_webserver_begin"></block>
+                    <block type="esp_webserver_handle"></block>
+                    <block type="esp_ntp_time"></block>
+                    <block type="esp_ntp_date"></block>
+                    <block type="esp_ntp_set_time_zone"></block>
+                    <block type="esp_deep_sleep"></block>
+                    <block type="esp32_touch_read"></block>
+                    <block type="esp32_ledc_pwm"></block>
+                </category>
+                <!-- В toolbox добавляем новые категории -->
+
+
+
+                <category name="Светодиоды" colour="330">
+                    <block type="rgb_led_common_cathode"></block>
+                    <block type="rgb_led_common_anode"></block>
+                    <block type="neopixel_begin"></block>
+                    <block type="neopixel_set_color"></block>
+                    <block type="neopixel_show"></block>
+                    <block type="neopixel_clear"></block>
+                </category>
+
+
+
+                <category name="Звук" colour="160">
+                    <block type="buzzer_beep"></block>
+                    <block type="buzzer_note"></block>
+                    <block type="buzzer_melody"></block>
+                    <block type="buzzer_stop"></block>
+                </category>
+
+
+            </div>
+
+            <div class="workspace-area">
+                <div class="blockly-panel">
+                    <div id="blocklyDiv"></div>
+                </div>
+
+                <div class="code-panel" id="codePanel">
+                    <div class="panel-header">
+<!--                        <span>Редактор кода</span>-->
+                        <div class="panel-header-controls">
+                            <button class="btn-icon" onclick="copyCode()" title="Копировать код">
+                                <span class="icon btn-copy"></span>
+                            </button>
+                            <button class="btn-icon" onclick="toggleCodeFullscreen()" title="На весь экран">
+                                <span class="icon btn-fullscreen"></span>
+                            </button>
+                            <div class="editor-controls">
+                                <button onclick="loadCodeFromEditor()" class="btn btn-secondary btn-icon" id="convertToBlocksBtn" title="Пока криво работает">
+                                    <span class="icon to-blocks"></span> В блоки
+                                </button>
+                                <button class="btn btn-icon" onclick="testCodeToBlocks()" title="Немедленный тест">
+                                    <span class="icon btn-settings"></span> Тест
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="code-panel-tabs">
+                        <div class="code-panel-tab active" data-tab="code" onclick="switchTab('code')">Код</div>
+                        <div class="code-panel-tab" data-tab="editor" onclick="switchTab('editor')">Редактор</div>
+                    </div>
+                    <div class="panel-content">
+                        <div id="codeTab" class="code-tab-content active">
+                            <pre><code id="codeOutput" class="language-arduino">// Сгенерированный код появится здесь...</code></pre>
+                        </div>
+                        <div id="editorTab" class="code-tab-content">
+                            <div class="code-editor-wrapper">
+                                <!-- Номера строк добавятся автоматически -->
+                                <textarea id="codeEditor" spellcheck="false" placeholder="Введите ваш Arduino код здесь..."></textarea>
+                                <pre id="codeEditorPreview"></pre>
+                            </div>
+                            <div class="error-status-bar" id = "error-status-bar"></div>
+<!--                            <div class="editor-controls">-->
+<!--                                <button onclick="loadCodeFromEditor()" class="btn btn-secondary btn-icon" id="convertToBlocksBtn">-->
+<!--                                    <span class="icon to-blocks"></span> В блоки-->
+<!--                                </button>-->
+<!--                                <button class="btn btn-icon" onclick="testCodeToBlocks()" title="Немедленный тест">-->
+<!--                                    <span class="icon btn-settings"></span> Тест-->
+<!--                                </button>-->
+
+<!--                            </div>-->
+                        </div>
+                    </div>
+                    <div class="resize-handle"></div>
+                </div>
+            </div>
+
+            <div class="output-panel collapsed" id="outputPanel">
+                <div class="panel-header">
+                    <div class="output-panel-tabs">
+                        <div class="output-panel-tab active" data-tab="log" onclick="switchOutputTab('log')">Вывод</div>
+                        <div class="output-panel-tab" data-tab="serial" onclick="switchOutputTab('serial')">Монитор порта</div>
+                    </div>
+                    <div class="panel-header-controls">
+                        <button class="collapse-btn btn-icon" onclick="toggleOutputPanel()" title="Свернуть/развернуть">
+                            <span class="icon"></span>
+                        </button>
+                    </div>
+                </div>
+                <div class="panel-content">
+                    <div id="logTab" class="output-tab-content active">
+                        <div id="logOutput" class="log-output"></div>
+                    </div>
+                    <div id="serialTab" class="output-tab-content">
+                        <div class="serial-controls">
+                            <select id="serialPortSelect" class="serial-select">
+                                <option value="">Выберите порт...</option>
+                            </select>
+                            <select id="serialBaudSelect" class="serial-select">
+                                <option value="9600">9600</option>
+                                <option value="115200">115200</option>
+                                <option value="57600">57600</option>
+                                <option value="38400">38400</option>
+                                <option value="19200">19200</option>
+                                <option value="14400">14400</option>
+                                <option value="4800">4800</option>
+                                <option value="2400">2400</option>
+                                <option value="1200">1200</option>
+                            </select>
+                            <button id="serialConnectBtn" class="btn btn-success btn-icon" onclick="toggleSerialConnection()">
+                                <span class="icon btn-connect"></span> Подключить
+                            </button>
+                            <button id="serialDisconnectBtn" class="btn btn-danger btn-icon" onclick="toggleSerialConnection()" style="display: none;">
+                                <span class="icon btn-disconnect"></span> Отключить
+                            </button>
+                            <button class="btn btn-secondary btn-icon" onclick="refreshSerialPorts()">
+                                <span class="icon btn-refresh"></span> Обновить
+                            </button>
+                            <button class="btn btn-secondary btn-icon" onclick="clearSerialMonitor()">
+                                <span class="icon btn-clear"></span> Очистить
+                            </button>
+                            <input type="text" id="serialInput" placeholder="Введите данные для отправки..." class="serial-input">
+                            <button class="btn btn-info btn-icon" onclick="sendSerialData()">
+                                <span class="icon btn-send"></span> Отправить
+                            </button>
+                        </div>
+
+                        <div id="serialOutput" class="serial-output"></div>
+                    </div>
+                </div>
+                <div class="resize-handle vertical"></div>
+            </div>
+        </div>
+
+        <div class="status-bar">
+            <div id="status">Готов к работе</div>
+            <div id = "version" >КонтрБагКОД v1.0 | 🐞 Без багов!</div>
+        </div>
+    </div>
+
+ <!-- Модальное окно загрузки -->
+<div id="uploadModal" class="modal">
+    <div class="modal-content" style="width: 600px;">
+        <div class="modal-header">
+            <h3 class="modal-title">Загрузка</h3>
+        </div>
+        <div class="modal-body">
+            <p>Выберите COM-порт для загрузки:</p>
+            <div id="portList" class="port-list">
+                <!-- Порты будут загружены здесь -->
+            </div>
+            <div class="port-item refresh-item">
+                <div style="text-align: center; padding: 10px;">
+                    <button class="btn btn-icon" onclick="refreshPorts()">
+                        <span class="icon btn-refresh"></span> Обновить список портов
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button onclick="uploadSketch()" class="btn btn-warning btn-icon" id="uploadButton" disabled>
+                <span class="icon btn-upload"></span> Загрузить
+            </button>
+            <button onclick="hideUploadModal()" class="btn btn-secondary btn-icon modal-close">
+                <span class="icon btn-close"></span> Отмена
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- В файле index.html, в модальном окне currentBoardSettingsModal -->
+<div id="currentBoardSettingsModal" class="modal">
+    <div class="modal-content" style="width: 800px; max-height: 90vh;">
+        <div class="modal-header">
+            <h3 class="modal-title">Настройки платы</h3>
+        </div>
+        <div class="modal-body">
+            <!-- Информация о плате -->
+            <div id="currentBoardInfo" class="settings-section"></div>
+
+            <div class="settings-section">
+                <h4>Драйверы устройств</h4>
+                <div class="driver-management">
+                    <div class="form-group">
+                        <label>Выберите драйвер:</label>
+                        <select id="driverSelect" class="form-select">
+                            <option value="ch340">CH340/CH341 (Arduino Nano/Uno)</option>
+                            <option value="cp210x">CP210x (ESP32/NodeMCU)</option>
+                            <option value="ft232">FT232 (FTDI адаптеры)</option>
+                        </select>
+                    </div>
+
+                    <div id="driverStatus" class="driver-status-container">
+                        <!-- Статус драйверов будет обновлен -->
+                    </div>
+
+                    <div class="button-group">
+                        <button id="checkDriversBtn" class="btn btn-secondary" onclick="currentBoardSettings.checkDrivers()">
+                            Проверить драйверы
+                        </button>
+                        <button id="installDriverBtn" class="btn btn-primary" onclick="currentBoardSettings.installDriver()">
+                            Установить драйвер
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Конфигурация пинов -->
+            <div id="pinSettings" class="settings-section"></div>
+
+<!--            &lt;!&ndash; Настройки загрузки &ndash;&gt;-->
+<!--            <div id="uploadSettings" class="settings-section"></div>-->
+
+<!--            &lt;!&ndash; Конфигурационные меню (для ESP плат) &ndash;&gt;-->
+<!--            <div id="menuSettings" class="settings-section"></div>-->
+
+            <!-- Конфигурационные параметры -->
+            <div id="configurationOptions" class="settings-section"></div>
+
+            <!-- Дополнительные настройки (старая секция) -->
+            <div class="settings-section additional-settings" style="display: none;">
+                <!-- Эта секция скрыта, оставляем для обратной совместимости -->
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-secondary btn-icon modal-close" onclick="UIManager.hideModal('currentBoardSettingsModal')">
+                <span class="icon btn-close"></span> Закрыть
+            </button>
+        </div>
+    </div>
+</div>
+
+
+<!--    <div class="settings-section">-->
+<!--                <h4>Драйверы устройств</h4>-->
+<!--                <div class="driver-management">-->
+<!--                    <div class="form-group">-->
+<!--                        <label>Выберите драйвер:</label>-->
+<!--                        <select id="driverSelect" class="form-select">-->
+<!--                            <option value="ch340">CH340/CH341 (Arduino Nano/Uno)</option>-->
+<!--                            <option value="cp210x">CP210x (ESP32/NodeMCU)</option>-->
+<!--                            <option value="ft232">FT232 (FTDI адаптеры)</option>-->
+<!--                        </select>-->
+<!--                    </div>-->
+
+<!--                    <div id="driverStatus" class="driver-status-container">-->
+<!--                        &lt;!&ndash; Статус драйверов будет обновлен &ndash;&gt;-->
+<!--                    </div>-->
+
+<!--                    <div class="button-group">-->
+<!--                        <button id="checkDriversBtn" class="btn btn-secondary" onclick="currentBoardSettings.checkDrivers()">-->
+<!--                            Проверить драйверы-->
+<!--                        </button>-->
+<!--                        <button id="installDriverBtn" class="btn btn-primary" onclick="currentBoardSettings.installDriver()">-->
+<!--                            Установить драйвер-->
+<!--                        </button>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+
+<!-- Модальное окно управления платами -->
+<div id="boardManagementModal" class="modal">
+    <div class="modal-content" style="width: 900px; height: 85vh;">
+        <div class="modal-header">
+            <h3 class="modal-title">Управление платами</h3>
+        </div>
+        <div class="tabs">
+                <button class="tab-button active" data-tab="cores">Ядра и платы</button>
+                <button class="tab-button" data-tab="urls">Дополнительные URL</button>
+                <button class="tab-button" data-tab="diagnose">Диагностика</button>
+            </div>
+
+        <div class="modal-body">
+            <!-- Вкладка ядер и плат -->
+            <div id="coresTab" class="tab-content active">
+                <div class="tab-header">
+                    <div class="tab-controls">
+                        <button id="refreshCoresBtn" class="btn btn-secondary btn-small" onclick="boardManagementModal.refreshCoresData()">
+                            Обновить
+                        </button>
+                        <button id="updateIndexBtn" class="btn btn-info btn-small" onclick="boardManagementModal.updateCoreIndex()">
+                            Обновить индекс
+                        </button>
+                    </div>
+                </div>
+                <div id="coresListContainer" class="cores-list-container">
+                    <!-- Данные будут загружены динамически -->
+                </div>
+            </div>
+
+            <!-- Вкладка дополнительных URL -->
+            <div id="urlsTab" class="tab-content">
+                <div class="tab-header">
+                    <div class="section-header">
+                        <h4>Дополнительные URL репозиториев</h4>
+                    </div>
+                    <div class="tab-controls">
+                        <input type="text" id="additionalUrlInput"
+                               placeholder="https://example.com/package_index.json"
+                               class="form-input">
+                        <button id="addUrlBtn" class="btn btn-primary" onclick="boardManagementModal.addAdditionalUrl()">
+                            Добавить
+                        </button>
+                    </div>
+                </div>
+                <div id="urlsListContainer" class="urls-list-container">
+                    <!-- Данные будут загружены динамически -->
+                </div>
+            </div>
+
+            <!-- Вкладка диагностики -->
+            <div id="diagnoseTab" class="tab-content">
+                <div class="diagnose-section">
+                    <h4>Диагностика системы</h4>
+                    <button id="diagnoseBtn" class="btn btn-warning" onclick="boardManagementModal.diagnose()">
+                        Запустить диагностику
+                    </button>
+                    <div id="diagnosisResults" class="diagnosis-results-container">
+                        <!-- Результаты диагностики будут отображены здесь -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <button class="btn btn-secondary btn-icon modal-close" onclick="UIManager.hideModal('boardManagementModal')" >
+                <span class="icon btn-close"></span> Закрыть
+            </button>
+        </div>
+    </div>
+</div>
+
+    <div id="notification" class="notification"></div>
+
+
+
+    <!-- Подключаем модули в правильном порядке -->
+    <!-- Core modules -->
+    <!-- Подключаем кастомные блоки -->
+    <script src="js/core/blocks/core.js"></script>
+    <script src="js/core/blocks/io.js"></script>
+    <script src="js/core/blocks/functions.js"></script>
+    <script src="js/core/blocks/variables.js"></script>
+    <script src="js/core/blocks/string.js"></script>
+    <script src="js/core/blocks/math_logic.js"></script>
+    <script src="js/core/blocks/controls.js"></script>
+    <script src="js/core/blocks/sensors.js"></script>
+    <script src="js/core/blocks/motors.js"></script>
+    <script src="js/core/blocks/displays.js"></script>
+    <script src="js/core/blocks/serial.js"></script>
+    <script src="js/core/blocks/communication.js"></script>
+    <script src="js/core/blocks/system.js"></script>
+    <script src="js/core/blocks/time.js"></script>
+    <script src="js/core/blocks/esp.js"></script>
+    <script src="js/core/blocks/lights.js"></script>
+    <script src="js/core/blocks/audio.js"></script>
+    <script src="js/core/blocks/arrays.js"></script>
+<!--    <script src="js/blocks/mutator_fixes.js"></script>-->
+
+
+    <!-- 1. Базовые классы парсеров -->
+    <script src="js/core/parsers/IParser.js"></script>
+    <script src="js/core/parsers/BaseParser.js"></script>
+
+    <!-- 2. Конкретные парсеры -->
+    <script src="js/core/parsers/BasicParser.js"></script>
+    <script src="js/core/parsers/SensorParser.js"></script>
+    <script src="js/core/parsers/MotorParser.js"></script>
+    <script src="js/core/parsers/ESPParser.js"></script>
+    <script src="js/core/parsers/DisplayParser.js"></script>
+    <script src="js/core/parsers/CommunicationParser.js"></script>
+    <script src="js/core/parsers/FunctionParser.js"></script>
+    <script src="js/core/parsers/SpecialParser.js"></script>
+    <script src="js/core/parsers/ArrayParser.js"></script>
+
+    <!-- 3. Менеджер парсеров -->
+    <script src="js/core/ParserManager.js"></script>
+
+    <!-- 4. Базовые классы провайдеров -->
+    <script src="js/core/library/providers/BaseLibraryProvider.js"></script>
+    <script src="js/core/helpers/providers/BaseHelperProvider.js"></script>
+    <script src="js/core/initialization/providers/BaseInitializationProvider.js"></script>
+
+    <!-- 5. Library провайдеры -->
+    <script src="js/core/library/providers/SensorLibraryProvider.js"></script>
+    <script src="js/core/library/providers/MotorLibraryProvider.js"></script>
+    <script src="js/core/library/providers/DisplayLibraryProvider.js"></script>
+    <script src="js/core/library/providers/ESPLibraryProvider.js"></script>
+    <script src="js/core/library/providers/CommunicationLibraryProvider.js"></script>
+    <script src="js/core/library/providers/SpecialLibraryProvider.js"></script>
+
+
+    <!-- 6. LibraryManager -->
+    <script src="js/core/library/LibraryManager.js"></script>
+
+    <!-- 7. Helper провайдеры -->
+    <script src="js/core/helpers/providers/SensorHelperProvider.js"></script>
+    <script src="js/core/helpers/providers/MotorHelperProvider.js"></script>
+    <script src="js/core/helpers/providers/ESPHelperProvider.js"></script>
+    <script src="js/core/helpers/providers/DisplayHelperProvider.js"></script>
+    <script src="js/core/helpers/providers/SpecialHelperProvider.js"></script>
+    <script src="js/core/helpers/providers/ArraysHelperProvider.js"></script>
+
+    <!-- 8. HelperGenerator -->
+    <script src="js/core/helpers/HelperGenerator.js"></script>
+
+    <!-- 9. Initialization провайдеры -->
+    <script src="js/core/initialization/providers/SensorInitializationProvider.js"></script>
+    <script src="js/core/initialization/providers/MotorInitializationProvider.js"></script>
+    <script src="js/core/initialization/providers/ESPInitializationProvider.js"></script>
+    <script src="js/core/initialization/providers/DisplayInitializationProvider.js"></script>
+    <script src="js/core/initialization/providers/CommunicationInitializationProvider.js"></script>
+
+    <!-- 10. InitializationGenerator -->
+    <script src="js/core/initialization/InitializationGenerator.js"></script>
+
+    <!-- 11. SystemInitializer (инициализирует всю систему) -->
+    <script src="js/core/SystemInitializer.js"></script>
+
+    <!-- 12. Главный парсер -->
+    <script src="js/core/BlockParser.js"></script>
+
+    <!-- 13. CodeGenerator -->
+    <script src="js/core/CodeGenerator.js"></script>
+
+    <!-- 14. Существующие менеджеры (не трогаем) -->
+    <script src="js/core/managers/connectionHelper.js"></script>
+    <script src="js/core/managers/blocklyManager.js"></script>
+
+
+    <script src="js/logManager.js"></script>
+<!--    <script src="js/boards/BoardManager.js"></script>-->
+    <script src="js/boards/CurrentBoardSettings.js"></script>
+    <script src="js/boards/BoardManagementModal.js"></script>
+    <script src="js/boards/BoardUIManager.js"></script>
+    <script src="js/core/managers/connectionHelper.js"></script>
+    <script src="js/core/managers/blocklyManager.js"></script>
+    <script src="js/projectStateManager.js"></script>
+    <script src="js/compilationManager.js"></script>
+    <script src="js/uiManager.js"></script>
+    <script src="js/workspaceManager.js"></script>
+    <script src="js/themeManager.js"></script>
+    <script src="js/serialManager.js"></script>
+    <script src="js/codeToBlocks/codeToBlocks.js"></script>
+
+    <script src="js/logManager.js"></script>
+
+<!--    BOARDS-->
+    <script src="js/boards/ConfigManager.js"></script>
+    <script src="js/boards/BoardManager.js"></script>
+    <script src="js/boards/BoardConfigManager.js"></script>
+    <script src="js/boards/CurrentBoardSettings.js"></script>
+    <script src="js/boards/BoardManagementModal.js"></script>
+    <script src="js/boards/BoardUIManager.js"></script>
+
+
+
+
+
+    <!-- Managers -->
+    <script src="js/projectStateManager.js"></script>
+    <script src="js/compilationManager.js"></script>
+    <!-- Existing managers -->
+    <script src="js/uiManager.js"></script>
+    <script src="js/workspaceManager.js"></script>
+    <script src="js/themeManager.js"></script>
+    <script src="js/serialManager.js"></script>
+    <script src="js/codeToBlocks/codeToBlocks.js"></script>
+
+    <!-- Code editor modules -->
+    <script src="js/codeEditor2/suggestionProviders.js"></script>
+    <script src="js/codeEditor2/coreArduinoProvider.js"></script>
+    <script src="js/codeEditor2/userCodeProvider.js"></script>
+    <script src="js/codeEditor2/dynamicLibraryProvider.js"></script>
+    <script src="js/codeEditor2/libraryParser.js"></script>
+    <script src="js/codeEditor2/ErrorChecker.js"></script>
+    <script src="js/codeEditor2/ErrorHighlighter.js"></script>
+    <script src="js/codeEditor2/tabManager.js"></script>
+    <script src="js/codeEditor2/autoBracketHandler.js"></script>
+    <script src="js/codeEditor2/EnhancedDynamicLibraryProvider.js"></script>
+    <script src="js/codeEditor2/autocompleteManager.js"></script>
+    <script src="js/codeEditor2/codeEditor.js"></script>
+
+    <script src="js/upload/uploadManager.js"></script>
+<!--    <script src="js/test/linux-permissions.js"></script>-->
+
+<!--    СИМУЛЯТОР-->
+    <script src="js/simulator/components/BaseComponent.js"></script>
+    <script src="js/simulator/components/ButtonComponent.js"></script>
+    <script src="js/simulator/components/BuzzerComponent.js"></script>
+    <script src="js/simulator/components/LCDComponent.js"></script>
+    <script src="js/simulator/components/LEDComponent.js"></script>
+    <script src="js/simulator/components/PotentiometerComponent.js"></script>
+    <script src="js/simulator/components/ServoComponent.js"></script>
+    <script src="js/simulator/components/BatteryComponent.js"></script>
+    <script src="js/simulator/components/ResistorComponent.js"></script>
+
+
+
+<!--    <script src="js/simulator/cpp/compilerWorker.js"></script>-->
+<!--    <script src="js/simulator/cpp/WasmArduinoManager.js"></script>-->
+
+    <script src="js/simulator/core/ArduinoCodeParser.js"></script>
+    <script src="js/simulator/core/ComponentManager.js"></script>
+    <script src="js/simulator/core/ExecutionEngine.js"></script>
+    <script src="js/simulator/core/PinManager.js"></script>
+    <script src="js/simulator/core/SimulatorCore.js"></script>
+    <script src="js/simulator/core/CircuitSimulator.js"></script>
+
+    <script src="js/simulator/ui/SimulatorModalHTML.js"></script>
+    <script src="js/simulator/ui/CanvasController.js"></script>
+    <script src="js/simulator/ui/ComponentController.js"></script>
+    <script src="js/simulator/ui/WireController.js"></script>
+    <script src="js/simulator/ui/UIController.js"></script>
+    <script src="js/simulator/ui/SimulationLock.js"></script>
+    <script src="js/simulator/ui/SimulatorUI.js"></script>
+    <script src="js/simulator/ui/BoardRenderer.js"></script>
+    <script src="js/simulator/ui/ComponentRenderer.js"></script>
+    <script src="js/simulator/ui/ConnectionManager.js"></script>
+    <script src="js/simulator/ui/SimulatorUI.js"></script>
+
+    <script src="js/simulator/SimulatorManager.js"></script>
+    <!-- Main renderer -->
+    <script src="renderer.js"></script>
+
+
+
+</body>
+
+</html>
+
