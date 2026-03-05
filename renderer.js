@@ -24,7 +24,7 @@ if (typeof require !== 'undefined' && !window.ipcRenderer) {
 class AppController {
     constructor() {
 
-        this.APP_VERSION = '1.0.7 Beta';
+        this.APP_VERSION = '1.0.8 Beta';
         this.APP_AUTHOR = 'Лунев Валерий Константинович ';
 
         this.workspace = null;
@@ -413,29 +413,50 @@ class AppController {
 
     // Project management
     async saveProject() {
-        if (!window.UIManager || !window.ipcRenderer) return;
+        // Подготавливаем данные проекта
+        const projectData = {
+            blocks: Blockly.serialization.workspaces.save(this.workspace),
+            code: window.UIManager.getCurrentCode(),
+            timestamp: new Date().toISOString(),
+            board: window.UIManager.getSelectedBoard()
+        };
+        const dataStr = JSON.stringify(projectData, null, 2);
 
-        try {
-            const projectData = {
-                blocks: Blockly.serialization.workspaces.save(this.workspace),
-                code: window.UIManager.getCurrentCode(),
-                timestamp: new Date().toISOString(),
-                board: window.UIManager.getSelectedBoard()
-            };
-
-            const result = await window.ipcRenderer.invoke('save-project', {
-                data: JSON.stringify(projectData, null, 2),
-                filename: `project_${Date.now()}.cbp`
-            });
-
-            if (result.success) {
-                this.currentProjectPath = result.path;
-                this.addToRecentProjects(result.path);
-                window.UIManager.showNotification('Проект сохранен: ' + result.path);
+        if (window.ipcRenderer) {
+            // Electron-версия: сохраняем через диалог
+            try {
+                const result = await window.ipcRenderer.invoke('save-project', {
+                    data: dataStr,
+                    filename: `project_${Date.now()}.cbp`
+                });
+                if (result.success) {
+                    this.currentProjectPath = result.path;
+                    this.addToRecentProjects(result.path);
+                    window.UIManager.showNotification('Проект сохранён: ' + result.path);
+                } else if (result.error !== 'Отменено пользователем') {
+                    window.UIManager.showNotification('Ошибка сохранения: ' + result.error, true);
+                }
+            } catch (error) {
+                window.UIManager.showNotification('Ошибка сохранения проекта: ' + error.message, true);
             }
-        } catch (error) {
-            window.UIManager.showNotification('Ошибка сохранения проекта: ' + error.message, true);
+        } else {
+            // Веб-версия: скачиваем файл
+            this._downloadProject(dataStr);
         }
+    }
+
+    // Вспомогательный метод для скачивания
+    _downloadProject(dataStr) {
+        const blob = new Blob([dataStr], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `project_${Date.now()}.cbp`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        window.UIManager.showNotification('Проект сохранён (скачан)');
     }
 
     async saveProjectAs() {
@@ -443,15 +464,75 @@ class AppController {
     }
 
     async openProject() {
-        if (!window.UIManager || !window.ipcRenderer) return;
-
-        try {
-            const result = await window.ipcRenderer.invoke('open-project');
-            if (result.success) {
-                await this.loadProject(result.filePath, result.data);
+        if (window.ipcRenderer) {
+            // Electron-версия: используем IPC диалог
+            try {
+                const result = await window.ipcRenderer.invoke('open-project');
+                if (result.success) {
+                    await this.loadProject(result.filePath, result.data);
+                } else if (result.error !== 'Отменено пользователем') {
+                    window.UIManager?.showNotification('Ошибка открытия: ' + result.error, true);
+                }
+            } catch (error) {
+                window.UIManager?.showNotification('Ошибка открытия проекта: ' + error.message, true);
             }
-        } catch (error) {
-            window.UIManager.showNotification('Ошибка открытия проекта: ' + error.message, true);
+        } else {
+            // Веб-версия: открываем файл через input
+            this._openFilePicker();
+        }
+    }
+
+    // Вспомогательный метод для веб-версии
+    _openFilePicker() {
+        // Создаём скрытый input
+        const input = document.createElement('input');
+        input.type = 'file';
+        input.accept = '.cbp, .ino, .txt, application/json';
+        input.onchange = (event) => {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = async (e) => {
+                try {
+                    const content = e.target.result;
+                    // Пытаемся распарсить как JSON проекта
+                    let projectData;
+                    try {
+                        projectData = JSON.parse(content);
+                    } catch (jsonError) {
+                        // Если не JSON, возможно это обычный .ino файл
+                        if (file.name.endsWith('.ino')) {
+                            // Загружаем как код (без блоков)
+                            await this._loadInoFile(content, file.name);
+                            return;
+                        } else {
+                            throw new Error('Неверный формат файла. Ожидается .cbp или .ino');
+                        }
+                    }
+
+                    // Проверяем, что это наш формат проекта (наличие полей blocks или code)
+                    if (projectData && (projectData.blocks || projectData.code)) {
+                        await this.loadProject(file.name, JSON.stringify(projectData));
+                    } else {
+                        throw new Error('Файл не является проектом КонтрБагКОД');
+                    }
+                } catch (error) {
+                    window.UIManager?.showNotification('Ошибка загрузки файла: ' + error.message, true);
+                }
+            };
+            reader.readAsText(file);
+        };
+        input.click();
+    }
+
+    // Вспомогательный метод для загрузки .ino файла как кода
+    async _loadInoFile(content, filename) {
+        if (window.UIManager) {
+            window.UIManager.updateCodeOutput(content);
+            window.UIManager.showNotification(`Загружен файл: ${filename}`);
+            // Переключаемся в режим кода, если нужно
+            window.switchToCodeMode?.();
         }
     }
 

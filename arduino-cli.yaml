@@ -6,7 +6,7 @@ daemon:
 directories:
   data: C:\Users\Envalid\AppData\Local\Arduino15
   downloads: C:\Users\Envalid\AppData\Local\Arduino15\staging
-  user: C:\Users\Envalid\Desktop\JOB\KontrBugBlock\KontrBugCode
+  user: C:\Users\Envalid\Desktop\JOB\KontrBugBlock\KontrBugCodePrivate
 library:
   enable_unsafe_install: false
 logging:
